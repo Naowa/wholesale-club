@@ -1,5 +1,10 @@
-#include "mainwindow.h"
 #include <QApplication>
+#include <iostream>
+#include "mainwindow.h"
+#include "member.h"
+
+using namespace wholesalegroup;
+using namespace std;
 
 int main(int argc, char *argv[])
 {
