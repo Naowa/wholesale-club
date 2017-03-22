@@ -1,10 +1,12 @@
 #include <cassert>
-
+#include <cstdlib>
 #include "member.h"
 
 using std::string;
+using std::stoi;
+using std::to_string;
 
-wholesalegroup::Member::Member(int id, const std::string &name, Membership type) {
+wholesalegroup::Member::Member(int id, const std::string &name, Membership type, string joinDate) {
     this->info.id = id;
     this->info.name = name;
     this->info.type = type;
@@ -12,6 +14,8 @@ wholesalegroup::Member::Member(int id, const std::string &name, Membership type)
     this->allocated = 10;
 
     purchases = new Purchase[this->allocated];
+
+    calcExpDate(joinDate);
 }
 
 wholesalegroup::Member::Member(MemberInfo info) {
@@ -101,6 +105,25 @@ void wholesalegroup::Member::SetPrice(const string item, int new_price) {
 
 void wholesalegroup::Member::ChangeItemName(const string &old_item_name, const string &new_item_name) {
    this->operator[](old_item_name).item = new_item_name;
+}
+
+void wholesalegroup::Member::calcExpDate(const string &joinDate) {
+    assert(joinDate.length() == 10);
+
+    string expDateCopy = joinDate;
+    int tempInt;
+    string tempStr;
+    tempInt = stoi(expDateCopy.substr(6, 9));
+    tempInt++;
+    tempStr = to_string(tempInt);
+
+    int j = 0;
+    for (unsigned int i = expDateCopy.length() - 4; i < expDateCopy.length(); i++) {
+        expDateCopy[i] = tempStr[j];
+        j++;
+    }
+
+    this->info.expDate = expDateCopy;
 }
 
 

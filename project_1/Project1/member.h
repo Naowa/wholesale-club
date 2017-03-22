@@ -15,6 +15,7 @@ struct MemberInfo {
     int id;
     std::string name;
     Membership type;
+    std::string expDate;
 };
 
 struct Purchase {
@@ -26,13 +27,14 @@ struct Purchase {
 
 class Member {
 public:
-    Member(int id, const std::string &name = "NO_PROVIDED_NAME", Membership type = basic);
+    Member(int id, const std::string &name = "NO_PROVIDED_NAME", Membership type = basic, std::string joinDate = "01/01/2000");
     Member(MemberInfo info);
 
     inline MemberInfo& GetInfo() { return this->info;} //why can't this be const?
     inline int GetId() const { return this->info.id;}
     inline std::string GetName() const { return this->info.name;}
     inline Membership GetType() const { return this->info.type;}
+    inline std::string GetExpDate() const { return this->info.expDate;}
     inline int PurchaseLen() const { return this->size;}
     Purchase& GetPurchase(const std::string &item) const;
 
@@ -53,6 +55,7 @@ public:
     }
     inline void SetType(Membership new_type) { this->info.type = new_type;}
     inline void ChangeName(const std::string &new_name) { this->info.name = new_name;}
+    void calcExpDate(const std::string &joinDate);
 
     ~Member();
 private:
