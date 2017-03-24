@@ -1,0 +1,26 @@
+8.
+Story: As a user, I want to be able to enter a month name and get a list of all memberships that expire that month that also includes the dues amount.
+Description: Display all members whose memberships expire in the searched month name and display their amount dues as well.
+Story Points:
+Tasks:
+- Display list of expiring memberships in a given month
+- Display the amount dues of each membership in that month
+Tests:
+- Check if program correctly lists expiring memberships and dues
+Priority: Low
+Done: When a list that shows all of the expiring memberships in an inputted month is shown in the GUI with the amount dues included.
+Assignee: Damon
+
+9.
+Story: As a user, I want to be able to add or delete members to the member list.
+Description: Include features to add members and remove members from the sequence of members to be saved between executions.
+Story Points:
+Tasks:
+- Feature to add a member to the member list
+- Feature to remove a member from the member list
+- Save member list after each execution
+Tests:
+- Correctly adds/removes members
+- Create purchases to validate code
+Priority: Low
+Done: When a member can be successfully added or removed from the list of members and saved between executions.
