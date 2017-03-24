@@ -21,6 +21,7 @@ wholesalegroup::Member::Member(int id, const std::string &name, Membership type,
 
 wholesalegroup::Member::Member(MemberInfo info) {
     this->info = info;
+    purchases = new Purchase[this->allocated];
 }
 
 
