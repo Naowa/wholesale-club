@@ -16,7 +16,7 @@ struct MemberInfo {
     int id;
     std::string name;
     Membership type;
-    std::string expDate;
+    std::string expDate; //MM/DD/YYYY
 };
 
 struct Purchase {
