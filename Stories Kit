@@ -1,0 +1,30 @@
+6.
+Story: As project manager, I want an application that can take in files
+holding sales information and store the information into member profiles.
+Story Points: 
+Tasks:
+- a container to store member information into profiles
+- a container to store member profiles
+- a method to input information from sales files to member profiles
+Priority: High
+Done: When container classes are made that are compatible with each other
+and the GUI, that is able to store all neccessary member information and
+access them easily.
+Assignee: Armen
+
+7. 
+Story: As scrum master, I want to ensure that team members have their
+work completed in time and that there are no conflicts between members.
+Story Points:
+Tasks:
+- a website, where members are able to share their files
+- a way for group members to communicate with each other in real time
+- a way for group members to communicate as a group
+- regular meetings to update and assign tasks to group members
+- schedule for group members to follow
+Priority: Medium
+Done: When websites are established and users are able to easily message
+one another using those websites as well as share their code. Furthermore,
+there is a detailed shedule that explains exactly what each member must
+accomplish and for no members to feel they do too much or little.
+Assignee: Kit
