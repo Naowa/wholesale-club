@@ -1,30 +1,29 @@
 6.
-Story: As project manager, I want an application that can take in files
-holding sales information and store the information into member profiles.
+Story: As a user, I want a sheet that tells me how much rebate is owed
+to each preferred member. Furthermore, I want it to be sorted by the 
+member IDs.
 Story Points: 
 Tasks:
-- a container to store member information into profiles
-- a container to store member profiles
-- a method to input information from sales files to member profiles
-Priority: High
-Done: When container classes are made that are compatible with each other
-and the GUI, that is able to store all neccessary member information and
-access them easily.
-Assignee: Armen
+- rebate value for each member
+- values are sorted in a list by ID
+- information presented in a customer satisfiedformat
+Priority: Low
+Done: A report is displayed in the GUi including the list of rebates
+owed to each preferred member and each rebate is correct and sorted by
+ID.
+Assignee: Kit
 
 7. 
-Story: As scrum master, I want to ensure that team members have their
-work completed in time and that there are no conflicts between members.
-Story Points:
+Story: As a user, I want a report that is displayed in the GUI that
+shows the dues payed by each member. Furthermore, I want it sorted, 
+first by membertype and secondly, by member name.  
+Story Points: 
 Tasks:
-- a website, where members are able to share their files
-- a way for group members to communicate with each other in real time
-- a way for group members to communicate as a group
-- regular meetings to update and assign tasks to group members
-- schedule for group members to follow
-Priority: Medium
-Done: When websites are established and users are able to easily message
-one another using those websites as well as share their code. Furthermore,
-there is a detailed shedule that explains exactly what each member must
-accomplish and for no members to feel they do too much or little.
+- total member dues payed by each member
+- dues are sorted by member type, and then by name
+- information presented in customer satisfied format
+Priority: Low
+Done: A report is displayed in the GUI including a list of member
+dues that was payed by each member, and is sorted by member type 
+and name correctly.
 Assignee: Kit
