@@ -71,7 +71,7 @@ wholesalegroup::Purchase& wholesalegroup::Member::operator[](const string &item)
 }
 
 wholesalegroup::Purchase& wholesalegroup::Member::operator[](int index) const {
-    assert(index < this->PurchaseLen());
+    assert(index <= this->PurchaseLen());
 
     return this->purchases[index];
 }
