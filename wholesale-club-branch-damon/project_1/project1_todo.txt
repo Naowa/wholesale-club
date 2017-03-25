@@ -1,0 +1,41 @@
+sales report (no UI element needed, automatic save on close?)
+	- file output/writing
+		= list of items sold
+		= quantity of each item
+		= names of that day's shoppers
+		= num of basic/preferred shoppers
+
+enter membership # or name (separate textboxes or a single one to test for alpha vs digit)
+	- list of total purchases for that member
+
+total sales report (automatic again, no UI)
+	- all members, all purchases, grand total of all purchases
+
+enter item name (separate textbox)
+	- receive quantity of sales of item & total sales price
+
+report of each item sold by item name (automatic)
+	- also prints out quantity of each item sold
+
+report of rebates of all preferred members (automatic)
+	- sort by membership number
+
+report showing amount earned thru membership dues
+	- sort by membership type (prio: 1)
+	- sort by member name (prio: 2)
+
+user enters month to get all members whose mem. expires then (sep. textbox)
+	- display box (scroll field to display list?)
+	- display name + dues amount
+
+user add/delete members (button to new window or textbox and 2 linked btns (add, remove))
+	- create purchases for new members to validate code
+	- updates should be saved between executions (open/close program?)
+
+determine if basic should convert
+	- check list to see if annual rebate > $15
+
+determine if preferred should downgrade
+	- check list to see if annual rebate < $15
+
+save between executions (open/close?)

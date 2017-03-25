@@ -1,0 +1,42 @@
+5 classes;
+Member
+KeyedSeq
+Group
+MainWindow
+Main
+
+Member:
+  MemberInfo Struct:
+    ID
+    Name
+    Type
+   Purchase Struct:
+    Item
+    Quantity
+    Price
+    Total
+   Dyanmic Array of purchases
+
+Group:
+  Sequence of member objects
+  checkDuplicateName(name)
+  ifUpgrade(name
+  ifUpgrade(ID)
+  ifDowngrade(name)
+  ifDowngrade(ID)
+  upgrade(name)
+  upgrade(ID)
+  downgrade(name)
+  downgrade(ID)
+  readFile()
+  getExpiringMembers(month) //returns list of memebrs
+  getDues(member)
+  addMember(name, ID, type)
+  delMember(name)
+  delMember(ID)
+  
+Questions:
+-Can you be late on payments?
+-Are reports displayed on GUI?
+-Does program write files?
+-What if ppl have same name?
