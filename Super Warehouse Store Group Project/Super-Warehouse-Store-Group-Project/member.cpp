@@ -1,4 +1,4 @@
-//v0.1.1
+//v0.1.3
 #include <cassert>
 #include <cstdlib>
 #include "member.h"
@@ -57,13 +57,13 @@ double wholesalegroup::Member::getRebateAmount() {
 
 double wholesalegroup::Member::getDues() const {
     double BASIC_DUES = 60;
-    double PREM_DUES = 75;
+    double PREF_DUES = 75;
 
     if (this->info.type == basic) {
         return BASIC_DUES;
     }
 
-    return PREM_DUES;
+    return PREF_DUES;
 }
 
 wholesalegroup::Purchase& wholesalegroup::Member::operator[](const string &item) const {
@@ -136,7 +136,7 @@ void wholesalegroup::Member::SetQuantity(const string &item, int new_quantity) {
 }
 
 void wholesalegroup::Member::SetPrice(const string item, int new_price) {
-    this->operator[](item).price = new_price;
+    this->operator[](item).price = new_price + (new_Price * 0.0875);
     this->operator[](item).total = this->operator[](item).price * this->operator[](item).quantity;
 }
 

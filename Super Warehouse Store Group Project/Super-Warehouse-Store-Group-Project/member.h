@@ -1,4 +1,4 @@
-//v0.1.1
+//v0.1.3
 #ifndef MEMBER_H
 #define MEMBER_H
 
@@ -9,7 +9,7 @@ namespace wholesalegroup {
 
 enum Membership {
     basic,
-    premium,
+    preferred
 };
 
 struct MemberInfo {
@@ -59,7 +59,7 @@ public:
     }
     inline void SetType(Membership new_type) { this->info.type = new_type;}
     inline void ChangeName(const std::string &new_name) { this->info.name = new_name;}
-    void calcExpDate(const std::string &joinDate);
+    inline void setExpDate(const std::string &expDate) {this->info.expDate = expDate;} //expDate: MM/DD/YYYY
 
     ~Member();
 private:
@@ -67,6 +67,8 @@ private:
     Purchase *purchases;
     int size;
     int allocated;
+
+    void calcExpDate(const std::string &joinDate);
 };
 
 } //namespace wholesalegroup
