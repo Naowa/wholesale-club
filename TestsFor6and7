@@ -1,9 +1,0 @@
-6
-Tests:
-- Check if rebate is all correctly calculated and displayed
-- Make sure rebates are sorted by membership ID
-
-7
-Tests:
-- Check if all membership dues are correctly displayed
-- Make sure basic/preferred membership dues are correct
