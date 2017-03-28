@@ -1,130 +1,126 @@
+// version 0.0.3
 #include "sequence.h"
 #include <iostream>
 #include <algorithm>                   // used for copy. Again should we right our own?
 
-using namespace std;
-
 Sequence::Sequence(): used(0), current_index(0), capacity(20)
 {
-    data = new memPtr[capacity];
-    for(size_type i = 0; i < capacity; i++)
+    this->data = new valPtr[this->capacity];
+    for(size_type i = 0; i < this->capacity; i++)
     {
-        data[i] = NULL;                                             // Initialize all memPtrs to null;
+        this->data[i] = NULL;                                             // Initialize all valPtrs to null;
     }
 }
 
 Sequence::~Sequence()
 {
-    cout << "destructor called\n";
     delete []data;
 }
 
 void Sequence::start()
 {
-    if (used != 0)
-        current_index = 0;
+    if (this->used != 0)
+        this->current_index = 0;
     else
-        data[current_index] = NULL;			// Why do i need this again?
+        this->data[current_index] = NULL;			// Why do i need this again?
 }
 
 void Sequence::advance()
 {
     if (is_item())
-        current_index++;
+        this->current_index++;
     else
-        current_index = used;           // Set to the end...
+        this->current_index = used;           // Set to the end...
 }
 
 // make sure insert is unique
-void Sequence::insert(memPtr & entry)
+void Sequence::insert(valPtr & entry)
 {
     // Check for duplicates
-    for (size_type i = 0; i < used; i++)
+    for (size_type i = 0; i < this->used; i++)
     {
-        if (data[i]->GetId() == entry->GetId())
+        if (this->data[i]->GetId() == entry->GetId())
         {
             return;
         }
     }
 
-    if (used > capacity)
+    if (this->used >= this->capacity)
     {
-        resize();
+        this->resize();
     }
-    if (used < capacity) {
+    if (this->used < this->capacity) {
         if (!is_item()) {
-            current_index = 0;
+            this->current_index = 0;
         }
-        if (used > 0)
+        if (this->used > 0)
         {
-            for (size_type i = used - 1; (i != -1) && (i >= current_index); i--)
+            for (size_type i = this->used - 1; (i != -1) && (i >= this->current_index); i--)
             {
-                data[i + 1] = data[i];
+                this->data[i + 1] = this->data[i];
             }
         }
-        data[current_index] = entry;
-        used++;
+        this->data[current_index] = entry;
+        this->used++;
     }
     else
-        cout << "Over Capacity" << endl;
+        std::cout << "Over Capacity" << std::endl;
+    this->sort();
 }
 
 void Sequence::remove_current()
 {
     if (is_item())
     {
-//        std::cout<<current_index<<endl;
-//        delete data[current_index];
         for (size_type i = current_index; i < used - 1; ++i)
         {
-            data[i] = data[i + 1];
+            this->data[i] = this->data[i + 1];
         }
-        data[used - 1] = NULL;
-        --used;
+        this->data[used - 1] = NULL;
+        this->used--;
     }
     else
     {
-        cout << "Not an item." << endl;					// maybe put something here later
+        std::cout << "Not an item." << std::endl;					// maybe put something here later
     }
 }
 
-void Sequence::add_member(memPtr &entry)
+void Sequence::add_member(valPtr &entry)
 {
-        if ( (used + 1) > capacity ){
-            resize();
-        }
-    data[used] = entry;
-    used++;
+    if ( (this->used + 1) > this->capacity ){
+        resize();
+    }
+    this->data[used] = entry;
+    this->used++;
+    this->sort();
 }
 
-void Sequence::remove_member(int id, string name)
+void Sequence::remove_member(int id)
 {
-    for (int i = 0; i < used; i++){
-        if ( (data[i]->GetId() == id) && (data[i]->GetName() == name) ){
-            for (int j = i; j < (used - 1); j++){
-                data[j] = data[j + 1];
+    for (int i = 0; i < this->used; i++){
+        if (this->data[i]->GetId() == id){
+            for (int j = i; j < (this->used - 1); j++){
+                this->data[j] = this->data[j + 1];
             }
-            used--;
+            this->used--;
         }
     }
 }
 
 void Sequence::resize()
 {
-    size_type newCapacity = 2 * capacity;
-    size_type newUsed = capacity;
-    Sequence::memPtr* tempData = new Sequence::memPtr[newCapacity];
+    size_type newCap = 2 * this->capacity;
+    size_type newUsed = this->capacity;
+    Sequence::valPtr* tempData = new Sequence::valPtr[newCap];
 
-//    for (size_type i = 0; i < capacity; i++)
-//    {
-//        tempData[i] = data[i];
-//    }
-    copy(data, data + used, tempData);
+    std::copy(this->data, this->data + this->used, tempData);
 
     delete[] data;
-    data = tempData;
-    capacity = newCapacity;
-    used = newUsed;
+    this->data = tempData;
+    this->capacity = newCap;
+    this->used = newUsed;
+
+    tempData = NULL;
 }
 
 void Sequence::sort()
@@ -134,70 +130,57 @@ void Sequence::sort()
     int lowestIndex;
     if (is_item())
     {
-
-        for (size_type i = 0; i < used; i++)
+        for (size_type i = 0; i < this->used; i++)
         {
-            lowest_ID = data[i]->GetId();
+            lowest_ID = this->data[i]->GetId();
             lowestIndex = i;
-            for (size_type j = i; j < used; j++)
+            for (size_type j = i; j < this->used; j++)
             {
-                if (data[j]->GetId() < lowest_ID)
+                if (this->data[j]->GetId() < lowest_ID)
                 {
-                    lowest_ID = data[j]->GetId();
+                    lowest_ID = this->data[j]->GetId();
                     lowestIndex = j;
                 }
             }
-            memPtr p = data[i];
-            data[i] = data[lowestIndex];
-            data[lowestIndex] = p;
+            valPtr p = this->data[i];
+            this->data[i] = this->data[lowestIndex];
+            this->data[lowestIndex] = p;
         }
     }
-
 }
 
 bool Sequence::is_item() const
 {
-    if (current_index >= capacity || current_index < 0)
+    if (this->current_index >= this->capacity || this->current_index < 0)
         return false;
-
-    if (data[current_index] == NULL)
+    if (this->current_index >= this->used)
+        return false;
+    if (this->data[current_index] == NULL)
         return false;
     else
         return true;
 }
 
-Sequence::memPtr Sequence::current()
+Sequence::valPtr Sequence::current()
 {
     if (is_item())
-        return data[current_index];
+        return this->data[current_index];
     else
         return NULL;						// Don't know if right for sure
 }
 
 void Sequence::display()
 {
-       start();
+       this->start();
        while(is_item())
        {
-           cout << data[current_index]->GetId();
-           advance();
+           std::cout << data[current_index]->GetId();
+           this->advance();
        }
  }
 
-Sequence::memPtr Sequence::operator [] (size_type index)
+Sequence::valPtr Sequence::operator [] (size_type index)
 {
-    if (index < used){
-//        cout << "class [] operator: " << data[index]->GetId() << endl;
-        return data[index];
-    }
-}
-
-Sequence::size_type Sequence::Get_Capacity()
-{
-    return capacity;
-}
-
-Sequence::size_type Sequence::Get_Used()
-{
-    return used;
+    assert(index >= this->used);
+    return this->data[index];
 }
