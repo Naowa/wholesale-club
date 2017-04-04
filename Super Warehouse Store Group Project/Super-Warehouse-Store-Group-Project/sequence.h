@@ -1,5 +1,11 @@
-// version 0.0.3
+// version 0.1.3
 // SEQUENCE CLASS FOR OUR SUPER WAREHOUSE PROJECT
+
+//UPDATE NOTES:
+//New functions are indicated below/functions that were changed
+//operator [] was fixed, assertion was incorrect
+//add_member was updated with a newer version, checks for duplicates and sorts
+//remove_member is the same, unchanged
 
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
@@ -7,6 +13,8 @@
 #include <cstdlib>                                     // provides size_t
 #include <cassert>                                    // for assert
 #include "member.h"
+
+using std::string;
 
 class Sequence
 {
@@ -23,9 +31,6 @@ public:
     void start();                                               // Sets the current_index to 0
     void advance();                                         // Advances the current_index + 1
     void insert(valPtr &entry);                          // Inserts the
-
-    void add_member(valPtr &entry);
-    void remove_member(int id);
 
     void remove_current();
 
@@ -45,6 +50,19 @@ public:
     // ACCESSORS
     inline size_type size() const { return this->used; }
     inline size_type Get_Capacity(){return this->capacity;}
+
+
+    ///***NEW FUNCTIONS IN THIS VERSION
+    void add_member(valPtr &entry);
+    void remove_member(int id);
+    int find_user(int id);
+    int find_user(string name);
+
+    //***DAMON'S GROUP CHECK UPGRADE AND DOWNGRADE MOVED HERE
+    bool checkUpgrade(int id);
+    bool checkDowngrade(int id);
+
+    ///***END OF NEW FUNCTIONS IN THIS VERSION
 
 private:
     size_type capacity;
