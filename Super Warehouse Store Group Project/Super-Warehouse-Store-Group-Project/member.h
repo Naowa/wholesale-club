@@ -1,4 +1,7 @@
-//v0.1.3
+//v0.2.3
+//UPDATE NOTES:
+//No real changes, typo on line 139 was fixed new_Price -> new_price (lowercase)
+
 #ifndef MEMBER_H
 #define MEMBER_H
 

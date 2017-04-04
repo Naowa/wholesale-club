@@ -1,4 +1,4 @@
-//v0.1.3
+//v0.2.3
 #include <cassert>
 #include <cstdlib>
 #include "member.h"
@@ -136,7 +136,7 @@ void wholesalegroup::Member::SetQuantity(const string &item, int new_quantity) {
 }
 
 void wholesalegroup::Member::SetPrice(const string item, int new_price) {
-    this->operator[](item).price = new_price + (new_Price * 0.0875);
+    this->operator[](item).price = new_price + (new_price * 0.0875);
     this->operator[](item).total = this->operator[](item).price * this->operator[](item).quantity;
 }
 
