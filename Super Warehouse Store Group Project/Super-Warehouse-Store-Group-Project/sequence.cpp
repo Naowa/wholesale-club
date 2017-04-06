@@ -1,4 +1,4 @@
-// version 0.1.3
+// version 0.1.5
 #include "sequence.h"
 #include <iostream>
 #include <algorithm>                   // used for copy. Again should we right our own?
@@ -179,7 +179,7 @@ void Sequence::add_member(valPtr &entry)
         }
     data[used] = entry;
     used++;
-    sort();
+    // sort();                                      // Kit : "I had to remove this. Will explain eslewhere."
 }
 
 void Sequence::remove_member(int id)
@@ -289,3 +289,37 @@ int Sequence::find_user(string name)
     return -1;
 }
 ///**END OF NEW FUNCTIONS IN THIS VERSION
+
+///**NewFunction from version 0.1.5
+Sequence& Sequence::sortByPref()
+{
+	Sequence* prefSorted = new Sequence;
+
+	prefSorted->current_index = this->current_index;
+	prefSorted->capacity = this->capacity;
+
+	start();
+	// Fill preferred
+	while (this->is_item())
+	{
+		wholesalegroup::Member* temp = current();
+		if (current()->GetType() == wholesalegroup::preferred)
+		{
+			prefSorted->add_member(temp);
+		}
+		advance();
+	}
+	start();
+	// Fill the basic
+	while (this->is_item())
+	{
+		wholesalegroup::Member* temp = current();
+		if (current()->GetType() == wholesalegroup::basic)
+		{
+			prefSorted->add_member(temp);
+		}
+		advance();
+	}
+	return *prefSorted;
+}
+//** End of new function from version 0.1.5

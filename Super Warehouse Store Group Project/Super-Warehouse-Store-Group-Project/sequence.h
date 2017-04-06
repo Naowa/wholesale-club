@@ -1,4 +1,4 @@
-// version 0.1.3
+// version 0.1.5
 // SEQUENCE CLASS FOR OUR SUPER WAREHOUSE PROJECT
 
 //UPDATE NOTES:
@@ -64,6 +64,9 @@ public:
 
     ///***END OF NEW FUNCTIONS IN THIS VERSION
 
+    //**KITS SORT PREFERRED
+    Sequence& sortByPref();
+    // ** END
 private:
     size_type capacity;
     valPtr* data;

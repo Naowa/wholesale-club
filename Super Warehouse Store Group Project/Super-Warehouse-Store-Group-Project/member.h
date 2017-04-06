@@ -1,4 +1,4 @@
-//v0.2.3
+//v0.2.5
 //UPDATE NOTES:
 //No real changes, typo on line 139 was fixed new_Price -> new_price (lowercase)
 
@@ -63,6 +63,9 @@ public:
     inline void SetType(Membership new_type) { this->info.type = new_type;}
     inline void ChangeName(const std::string &new_name) { this->info.name = new_name;}
     inline void setExpDate(const std::string &expDate) {this->info.expDate = expDate;} //expDate: MM/DD/YYYY
+    
+    void operator =(Member &other); //Added by Kit 4/6/2017
+    Purchase*& PurchaseHistory();   //Added by Kit 4/6/2017
 
     ~Member();
 private:
