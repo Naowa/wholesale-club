@@ -1,4 +1,4 @@
-//v0.2.3
+//v0.2.4
 #include <cassert>
 #include <cstdlib>
 #include "member.h"
@@ -170,4 +170,17 @@ void wholesalegroup::Member::calcExpDate(const string &joinDate) {
 
 wholesalegroup::Member::~Member() {
     delete[] this->purchases;
+}
+
+void wholesalegroup::Member::operator=(Member & other)                  // Added by kit 4/6/2017
+{
+	info = other.GetInfo();
+	allocated = other.PurchaseLen();
+	purchases = other.PurchaseHistory();
+	this->size = other.PurchaseLen();
+}
+
+wholesalegroup::Purchase *& wholesalegroup::Member::PurchaseHistory()   // Added by Kit 4/6/2017
+{
+	return purchases;
 }
