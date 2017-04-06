@@ -1,4 +1,4 @@
-//v0.2.4
+//v0.2.5
 //UPDATE NOTES:
 //No real changes, typo on line 139 was fixed new_Price -> new_price (lowercase)
 
