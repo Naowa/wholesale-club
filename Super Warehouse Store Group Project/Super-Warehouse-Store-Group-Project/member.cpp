@@ -1,4 +1,4 @@
-//v0.2.4
+//v0.2.5
 #include <cassert>
 #include <cstdlib>
 #include "member.h"
