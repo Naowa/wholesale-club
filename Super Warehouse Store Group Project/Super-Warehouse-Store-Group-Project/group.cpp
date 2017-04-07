@@ -1,47 +1,51 @@
 //v1.3.8
 #include "group.h"
 
+#include <fstream>
+
+using namespace std;
+
 group::group()
 {
     memberList.start();
+    initialize_members();
+}
 
+void group::initialize_members()
+{
+    string inFileName = "warehouse shoppers.txt";
+    ifstream dataIn;
 
-    ///**REMOVE ALL THIS WHEN NO LONGER TESTING!!!!!
-    ///**THIS WILL PRE LOAD 6 PEOPLE INTO MEMBER LIST
-    wholesalegroup::Member *mem1 = new wholesalegroup::Member(123, "andy");
-    memberList.add_member(mem1);
+    string line;
+    int i = 0;
 
-    wholesalegroup::Member *mem2 = new wholesalegroup::Member(456, "damon", wholesalegroup::preferred);
-    memberList.add_member(mem2);
+    string name;                            // i = 0
+    int id;                                 // i = 1
+    wholesalegroup::Membership mem_type;    // i = 2
+    string date;                            // i = 3
 
-    wholesalegroup::Member *mem3 = new wholesalegroup::Member(789, "kit");
-    memberList.add_member(mem3);
+    dataIn.open(inFileName);
+        while (getline(dataIn, line)){
 
-    wholesalegroup::Member *mem4 = new wholesalegroup::Member(133, "armen", wholesalegroup::preferred);
-    memberList.add_member(mem4);
+            name = line;
+            getline(dataIn, line);
+            id = stoi(line);
+            getline(dataIn, line);
+                if (line == "Preferred"){
+                    mem_type = wholesalegroup::preferred;
+                }else{
+                    mem_type = wholesalegroup::basic;
+                }
+            getline(dataIn, line);
+                date = line;
 
-    wholesalegroup::Member *mem5 = new wholesalegroup::Member(144, "eeeeeee");
-    memberList.add_member(mem5);
+            wholesalegroup::Member *new_member = new wholesalegroup::Member(id, name, mem_type, date);
+            memberList.add_member(new_member);
 
-    wholesalegroup::Member *mem6 = new wholesalegroup::Member(155, "kit", wholesalegroup::preferred);
-    memberList.add_member(mem6);
+        }
+    dataIn.close();
 
-
-
-           ///***********testing add purchases, remove when done testing
-            wholesalegroup::Purchase newPurchase;
-            newPurchase.item = "apple";
-            newPurchase.quantity = 3;
-            newPurchase.price = 3.45;
-            newPurchase.total = 20.54;
-            memberList[2]->AddPurchase(newPurchase);
-
-            wholesalegroup::Purchase newPurchase2;
-            newPurchase2.item = "cake";
-            newPurchase2.quantity = 9;
-            newPurchase2.price = 20.34;
-            newPurchase2.total = 304.67;
-            memberList[2]->AddPurchase(newPurchase2);
+    memberList.sort();
 }
 
 string group::printRebates()
@@ -98,7 +102,7 @@ string group::printMembershipDues()
     return output_str;
 }
 
-void group::printExpirations(string month)
+string group::printExpirations(string month)
 {
     string expDateCopy;
     for(int i=0; i<month.size(); i++)
@@ -158,6 +162,7 @@ void group::printExpirations(string month)
         output_str += "\n\n";
         expireList.advance();
     }
+    return output_str;
 }
 
 bool group::checkUpgrade_state(string input_str, bool &valid)
@@ -261,6 +266,7 @@ void group::add_member_state(string input_str, bool &valid)
             id = stoi(id_str);
             wholesalegroup::Member *member_ptr = new wholesalegroup::Member(id, name, mem_type);
             memberList.add_member(member_ptr);
+            memberList.sort();
         }
 }
 
@@ -404,21 +410,25 @@ string group::get_Members_String()
 {
     int id;
     string name;
+    string date;
     string output_Str;
 
         for (int i = 0; i < memberList.size(); i++){
             id = memberList[i]->GetId();
             name = memberList[i]->GetName();
+            date = memberList[i]->GetExpDate();
 
             output_Str += "ID: "; output_Str += std::to_string(id); output_Str += "    ";
             output_Str += "NAME: "; output_Str += name; output_Str += "    ";
 
             output_Str += "MEMBERSHIP: ";
                 if (memberList[i]->GetType() == wholesalegroup::basic){
-                    output_Str += "Basic"; output_Str += "\n";
+                    output_Str += "Basic";
                 }else{
-                    output_Str += "Preferred"; output_Str += "\n";
+                    output_Str += "Preferred";
                 }
+
+            output_Str += "    "; output_Str += "EXP_DATE: "; output_Str += date; output_Str += "\n";
         }
 
     return output_Str;

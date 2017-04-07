@@ -29,7 +29,7 @@ public:
     void printItemQuantities();                                //5
     string printRebates();                                        //6
     string printMembershipDues();                           //7
-    void printExpirations(string month);                   //8
+    string printExpirations(string month);                   //8
     void addMember(value_type m);                       //9
     void removeMember(value_type m);                  //9
 
@@ -47,6 +47,7 @@ public:
     string get_Member_Purchases_String(int index);
     string get_Members_String();
     ///***END OF NEW FUNCTIONS IN THIS VERSION
+    void initialize_members();
 private:
     Sequence memberList;
 };

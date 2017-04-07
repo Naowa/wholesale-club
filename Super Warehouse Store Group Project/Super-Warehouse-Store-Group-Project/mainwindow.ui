@@ -166,6 +166,9 @@
       <height>111</height>
      </rect>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="btnDisplay">
     <property name="geometry">
@@ -213,7 +216,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
