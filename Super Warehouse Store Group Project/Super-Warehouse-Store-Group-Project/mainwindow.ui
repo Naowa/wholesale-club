@@ -53,7 +53,7 @@
      <string>View Month</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnSearch">
+   <widget class="QPushButton" name="btnExpire">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -63,7 +63,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Search Member</string>
+     <string>View Expirations</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnRemove">
@@ -216,7 +216,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>
@@ -345,6 +345,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnExpire</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_printExpirations_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>235</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_add_handler()</slot>
@@ -354,5 +370,6 @@
   <slot>btn_display_handler()</slot>
   <slot>btn_checkUpgrade_handler()</slot>
   <slot>btn_checkDowngrade_handler()</slot>
+  <slot>btn_printExpirations_handler()</slot>
  </slots>
 </ui>

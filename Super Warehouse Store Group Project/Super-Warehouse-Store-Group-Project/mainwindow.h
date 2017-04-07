@@ -39,6 +39,7 @@ class MainWindow : public QMainWindow
         ///***ADDED GROUP FUNCTIONS FROM DAMON'S VERSION
         void btn_checkUpgrade_handler();
         void btn_checkDowngrade_handler();
+        void btn_printExpirations_handler();
 private slots:
         void on_radioRebate_clicked(bool checked);
         void on_radioButton_clicked(bool checked);
