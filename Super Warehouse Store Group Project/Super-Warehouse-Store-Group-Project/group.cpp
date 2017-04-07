@@ -105,11 +105,14 @@ string group::printMembershipDues()
 string group::printExpirations(string month)
 {
     string expDateCopy;
+    int tempInt;
+    string monthStr = month;
+    double dues = 0;
+    string output_str;
     for(int i=0; i<month.size(); i++)
     {
-        month[i] = toupper(month[i]);
+        monthStr[i] = toupper(monthStr[i]);
     }
-    string monthStr = month;
     int monthNum = 0;
     if(monthStr == ("JANUARY"))
         monthNum = 1;
@@ -135,32 +138,24 @@ string group::printExpirations(string month)
         monthNum = 11;
     else if(monthStr == ("DECEMBER"))
         monthNum = 12;
-    Sequence expireList;
+    else
+        return "ERROR";
+    memberList.sort();
     memberList.start();
-    int tempInt;
-    while(memberList.current())
+    while(memberList.is_item())
     {
+        dues = memberList.current()->getDues();
         expDateCopy = memberList.current()->GetExpDate();
-        tempInt = stoi(expDateCopy.substr(0, 1));
-        if(tempInt == monthNum)
-        {
-            wholesalegroup::Member *temp = new wholesalegroup::Member(memberList.current()->GetInfo());
-            expireList.add_member(temp);
+        tempInt = stoi(expDateCopy.substr(0, 2));
+        if(tempInt == monthNum){
+            output_str += std::to_string(memberList.current()->GetId());
+            output_str += " ";
+            output_str += memberList.current()->GetName();
+            output_str += " \nDues amount : ";
+            output_str += std::to_string(memberList.current()->getDues());
+            output_str += "\n\n";
         }
         memberList.advance();
-    }
-    //display expire list in GUI
-    string output_str;
-    expireList.start();
-    while(expireList.is_item())
-    {
-        output_str += std::to_string(expireList.current()->GetId());
-        output_str += " ";
-        output_str += expireList.current()->GetName();
-        output_str += " \nDues amount : ";
-        output_str += std::to_string(expireList.current()->getDues());
-        output_str += "\n\n";
-        expireList.advance();
     }
     return output_str;
 }

@@ -88,6 +88,10 @@ void MainWindow::btn_confirm_handler()
                 }
         }
 
+        if (state == "CHECK_EXPIRATIONS"){
+            display(superWarehouseGroup.printExpirations(input_str));
+        }
+
         if (state == "PURCHASE_HISTORY"){
             superWarehouseGroup.purchase_history_state(input_str, valid, target_index, input_Type);
 
@@ -199,6 +203,12 @@ void MainWindow::btn_checkDowngrade_handler()
 {
     ui->instructions->setText("Check Downgrade: ID:");
     state = "CHECK_DOWNGRADE";
+}
+
+void MainWindow::btn_printExpirations_handler()
+{
+    ui->instructions->setText("Check Expirations: Month:");
+    state = "CHECK_EXPIRATIONS";
 }
 
 
