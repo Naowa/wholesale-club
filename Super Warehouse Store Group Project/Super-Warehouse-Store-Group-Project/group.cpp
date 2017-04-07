@@ -102,7 +102,7 @@ string group::printMembershipDues()
     return output_str;
 }
 
-string group::printExpirations(string month)
+string group::printExpirations(string month, bool &valid)
 {
     string expDateCopy;
     int tempInt;
@@ -139,7 +139,7 @@ string group::printExpirations(string month)
     else if(monthStr == ("DECEMBER"))
         monthNum = 12;
     else
-        return "ERROR";
+        valid = false;
     memberList.sort();
     memberList.start();
     while(memberList.is_item())

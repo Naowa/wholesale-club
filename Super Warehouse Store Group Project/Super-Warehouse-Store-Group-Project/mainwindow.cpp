@@ -89,7 +89,9 @@ void MainWindow::btn_confirm_handler()
         }
 
         if (state == "CHECK_EXPIRATIONS"){
-            display(superWarehouseGroup.printExpirations(input_str));
+            display(superWarehouseGroup.printExpirations(input_str, valid));
+            if(!valid)
+                ui->instructions->setText("Invalid Input! Month Name:");
         }
 
         if (state == "PURCHASE_HISTORY"){
@@ -207,7 +209,7 @@ void MainWindow::btn_checkDowngrade_handler()
 
 void MainWindow::btn_printExpirations_handler()
 {
-    ui->instructions->setText("Check Expirations: Month:");
+    ui->instructions->setText("Check Expirations: Month Name:");
     state = "CHECK_EXPIRATIONS";
 }
 
