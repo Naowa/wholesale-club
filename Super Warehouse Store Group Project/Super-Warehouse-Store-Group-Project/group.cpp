@@ -100,20 +100,64 @@ string group::printMembershipDues()
 
 void group::printExpirations(string month)
 {
+    string expDateCopy;
+    for(int i=0; i<month.size(); i++)
+    {
+        month[i] = toupper(month[i]);
+    }
+    string monthStr = month;
+    int monthNum = 0;
+    if(monthStr == ("JANUARY"))
+        monthNum = 1;
+    else if(monthStr == ("FEBRUARY"))
+        monthNum = 2;
+    else if(monthStr == ("MARCH"))
+        monthNum = 3;
+    else if(monthStr == ("APRIL"))
+        monthNum = 4;
+    else if(monthStr == ("MAY"))
+        monthNum = 5;
+    else if(monthStr == ("JUNE"))
+        monthNum = 6;
+    else if(monthStr == ("JULY"))
+        monthNum = 7;
+    else if(monthStr == ("AUGUST"))
+        monthNum = 8;
+    else if(monthStr == ("SEPTEMBER"))
+        monthNum = 9;
+    else if(monthStr == ("OCTOBER"))
+        monthNum = 10;
+    else if(monthStr == ("NOVEMBER"))
+        monthNum = 11;
+    else if(monthStr == ("DECEMBER"))
+        monthNum = 12;
     Sequence expireList;
     memberList.start();
+    int tempInt;
     while(memberList.current())
     {
-        //incomplete date comparison, fix later
-        if(memberList.current()->GetExpDate() == month)
+        expDateCopy = memberList.current()->GetExpDate();
+        tempInt = stoi(expDateCopy.substr(0, 1));
+        if(tempInt == monthNum)
         {
-//            expireList.insert(new Member(memberList.current()->GetInfo()));
+            wholesalegroup::Member *temp = new wholesalegroup::Member(memberList.current()->GetInfo());
+            expireList.add_member(temp);
         }
         memberList.advance();
     }
     //display expire list in GUI
+    string output_str;
     expireList.start();
-    //finish this when GUI implemented
+    while(expireList.is_item())
+    {
+        output_str += std::to_string(expireList.current()->GetId());
+        output_str += " ";
+        output_str += expireList.current()->GetName();
+        output_str += " \nDues amount : ";
+        output_str += std::to_string(expireList.current()->getDues());
+        output_str += "\n\n";
+        expireList.advance();
+    }
 }
 
 bool group::checkUpgrade_state(string input_str, bool &valid)
