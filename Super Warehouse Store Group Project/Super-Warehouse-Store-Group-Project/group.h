@@ -29,7 +29,7 @@ public:
     void printItemQuantities();                                //5
     string printRebates();                                        //6
     string printMembershipDues();                           //7
-    string printExpirations(string month);                   //8
+    string printExpirations(string month, bool &valid);                   //8
     void addMember(value_type m);                       //9
     void removeMember(value_type m);                  //9
 
