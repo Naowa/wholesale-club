@@ -1,4 +1,4 @@
-//VERSION 4.1.1
+//VERSION 4.1.2
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -199,4 +199,19 @@ void MainWindow::btn_checkDowngrade_handler()
 {
     ui->instructions->setText("Check Downgrade: ID:");
     state = "CHECK_DOWNGRADE";
+}
+
+
+/// ***KIT'S Functions
+void MainWindow::on_radioRebate_clicked(bool checked)
+{
+  string toPrint = superWarehouseGroup.printRebates();
+  display(toPrint);
+  // ui->displayBox->setText(toPrint);
+}
+
+void MainWindow::on_radioButton_clicked(bool checked)
+{
+    string toPrint = superWarehouseGroup.printMembershipDues();
+    display(toPrint);
 }

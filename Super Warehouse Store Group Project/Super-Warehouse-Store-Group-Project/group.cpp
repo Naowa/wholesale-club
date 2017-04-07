@@ -1,4 +1,4 @@
-//v1.2.8
+//v1.3.8
 #include "group.h"
 
 group::group()
@@ -42,6 +42,60 @@ group::group()
             newPurchase2.price = 20.34;
             newPurchase2.total = 304.67;
             memberList[2]->AddPurchase(newPurchase2);
+}
+
+string group::printRebates()
+{
+    string output_str;
+    int ID = 0;
+    string name;
+    double rebateAmount = 0;
+
+    memberList.sort();
+    memberList.start();
+    while(memberList.is_item())
+    {
+
+        if (memberList.current()->GetType() == wholesalegroup::preferred)
+        {
+            rebateAmount = memberList.current()->getRebateAmount();
+            // display to username & ID to as well as rebate amount to ui
+            output_str += std::to_string(memberList.current()->GetId());
+            output_str += " ";
+            output_str += memberList.current()->GetName();
+            output_str += " \nRebate Owed : ";
+            output_str += std::to_string(rebateAmount);
+            output_str += "\n\n";
+        }
+        memberList.advance();
+    }
+    return output_str;
+}
+
+string group::printMembershipDues()
+{
+    string output_str;
+    int ID = 0;
+    string name;
+    double dues = 0;
+
+    memberList.sort();
+    memberList.sortByPref();
+    memberList.start();
+    while(memberList.is_item())
+    {
+        dues = memberList.current()->getDues();
+        // Display to UI
+        output_str += std::to_string(memberList.current()->GetId());
+        output_str += " ";
+        output_str += memberList.current()->GetName();
+        output_str += " \nMembership Payed Per Year : ";
+        output_str += std::to_string(dues);
+        output_str += "\n\n";
+
+        memberList.advance();
+    }
+    return output_str;
 }
 
 void group::printExpirations(string month)

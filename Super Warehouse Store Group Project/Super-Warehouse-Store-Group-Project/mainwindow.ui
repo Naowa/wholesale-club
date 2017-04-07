@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>418</height>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -180,6 +180,32 @@
      <string>Display Members</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radioRebate">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>310</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rebate Report</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>340</y>
+      <width>131</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Membership Dues</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -187,7 +213,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -1,4 +1,4 @@
-//VERSION 4.1.1
+//VERSION 4.1.2
 //UPDATE NOTES:
 //Everything here is different from the old version
 
@@ -39,6 +39,9 @@ class MainWindow : public QMainWindow
         ///***ADDED GROUP FUNCTIONS FROM DAMON'S VERSION
         void btn_checkUpgrade_handler();
         void btn_checkDowngrade_handler();
+private slots:
+        void on_radioRebate_clicked(bool checked);
+        void on_radioButton_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H
