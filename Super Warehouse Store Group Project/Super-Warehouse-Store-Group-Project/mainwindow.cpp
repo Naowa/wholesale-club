@@ -1,4 +1,4 @@
-//VERSION 4.1.2
+//VERSION 4.1.5
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -162,6 +162,29 @@ void MainWindow::btn_confirm_handler()
                     }
             }
         }
+
+        if (state == "ITEM_QUANTITY")
+        {
+            string itemInfo;
+            int quantity = 0;
+            double price = 0;
+            superWarehouseGroup.printItemInfo(input_str, quantity, price, valid);
+            if(valid)
+            {
+                ui->instructions->setText("Item Found.");
+                itemInfo = input_str + " \nQuantity: ";
+                itemInfo += std::to_string(quantity);
+                itemInfo += " \nPrice: ";
+                itemInfo += std::to_string(price);
+                itemInfo += "\n";
+                display(itemInfo);
+                state = "NONE";
+            }
+            else
+            {
+                ui->instructions->setText("Invalid Item Name!");
+            }
+        }
 }
 
 void MainWindow::btn_add_handler()
@@ -190,6 +213,11 @@ void MainWindow::btn_display_handler()
     display(superWarehouseGroup.get_Members_String());
 }
 
+void MainWindow::btn_item_quantity_handler()                // Kit 4/10/2017
+{
+    ui->instructions->setText("Item Name:");
+    state = "ITEM_QUANTITY";
+}
 
 
 
@@ -212,6 +240,7 @@ void MainWindow::btn_printExpirations_handler()
     ui->instructions->setText("Check Expirations: Month Name:");
     state = "CHECK_EXPIRATIONS";
 }
+
 
 
 /// ***KIT'S Functions
