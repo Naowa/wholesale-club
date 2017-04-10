@@ -1,4 +1,4 @@
-//v1.4.9
+//v1.4.11
 #include "group.h"
 
 #include <fstream>
@@ -427,5 +427,21 @@ string group::get_Members_String()
         }
 
     return output_Str;
+}
+
+void group::printItemInfo(string &itemName, int &quantity, double &price, bool &valid)
+{
+    valid = false;
+    memberList.start();
+    while(memberList.is_item())
+    {
+        if (itemName == memberList.current()->GetPurchase(itemName).item)
+        {
+            quantity += memberList.current()->GetPurchase(itemName).quantity;
+            price = memberList.current()->GetPurchase(itemName).price;
+            valid = true;
+        }
+        memberList.advance();
+    }
 }
 ///***END OF NEW FUNCTIONS IN THIS VERSION

@@ -1,4 +1,4 @@
-//VERSION 4.1.2
+//VERSION 4.1.5
 //UPDATE NOTES:
 //Everything here is different from the old version
 
@@ -35,6 +35,7 @@ class MainWindow : public QMainWindow
         void btn_remove_handler();
         void btn_purchases_handler();
         void btn_display_handler();
+        void btn_item_quantity_handler(); // Kit 4/10/2017
 
         ///***ADDED GROUP FUNCTIONS FROM DAMON'S VERSION
         void btn_checkUpgrade_handler();
