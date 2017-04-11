@@ -1,6 +1,4 @@
-//v0.2.3
-//UPDATE NOTES:
-//No real changes, typo on line 139 was fixed new_Price -> new_price (lowercase)
+//V 3.0.0
 
 #ifndef MEMBER_H
 #define MEMBER_H
@@ -34,7 +32,7 @@ public:
     Member(int id, const std::string &name = "NO_PROVIDED_NAME", Membership type = basic, std::string joinDate = "01/01/2000");
     Member(MemberInfo info);
 
-    inline MemberInfo& GetInfo() { return this->info;} //why can't this be const?
+    inline MemberInfo& GetInfo() { return this->info;}
     inline int GetId() const { return this->info.id;}
     inline std::string GetName() const { return this->info.name;}
     inline Membership GetType() const { return this->info.type;}

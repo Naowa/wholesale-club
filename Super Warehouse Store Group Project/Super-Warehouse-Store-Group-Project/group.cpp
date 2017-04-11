@@ -1,65 +1,230 @@
-//v1.2.8
+//V 3.0.0
 #include "group.h"
+
+#include <fstream>
+
+using namespace std;
 
 group::group()
 {
     memberList.start();
+    initialize_members();
+
+    ///**REMOVE WHEN DONE
+
+    wholesalegroup::Purchase item1;
+    item1.item = "apple";
+    item1.price = 7.55;
+    item1.quantity = 3;
+    item1.total = 56;
+    memberList[0]->AddPurchase(item1);
+
+    wholesalegroup::Purchase item2;
+    item2.item = "apple";
+    item2.price = 1.55;
+    item2.quantity = 7;
+    item2.total = 33;
+    memberList[1]->AddPurchase(item2);
+
+    wholesalegroup::Purchase item3;
+    item3.item = "cake";
+    item3.price = 20.67;
+    item3.quantity = 2;
+    item3.total = 33.60;
+    memberList[0]->AddPurchase(item3);
+
+    wholesalegroup::Purchase item4;
+    item4.item = "cake";
+    item4.price = 20.67;
+    item4.quantity = 6;
+    item4.total = 123.67;
+    memberList[4]->AddPurchase(item4);
+
+    wholesalegroup::Purchase item5;
+    item5.item = "walrus";
+    item5.price = 304.98;
+    item5.quantity = 4;
+    item5.total = 2000.52;
+    memberList[5]->AddPurchase(item5);
+
+    wholesalegroup::Purchase item6;
+    item6.item = "candy";
+    item6.price = 0.10;
+    item6.quantity = 20;
+    item6.total = 4.00;
+    memberList[5]->AddPurchase(item6);
+
+    wholesalegroup::Purchase item7;
+    item7.item = "cakes";
+    item7.price = 40.76;
+    item7.quantity = 20;
+    item7.total = 870.55;
+    memberList[5]->AddPurchase(item7);
+
+    //there should be
+    //apple, cake, walrus, candy
+    //qty of apple: 10
+    //qty of cake is 28;
+    //qty of candy is 20
+    //qty of walrus is 4
+
+    ///***REMOVE WHEN DONE
 
 
-    ///**REMOVE ALL THIS WHEN NO LONGER TESTING!!!!!
-    ///**THIS WILL PRE LOAD 6 PEOPLE INTO MEMBER LIST
-    wholesalegroup::Member *mem1 = new wholesalegroup::Member(123, "andy");
-    memberList.add_member(mem1);
-
-    wholesalegroup::Member *mem2 = new wholesalegroup::Member(456, "damon", wholesalegroup::preferred);
-    memberList.add_member(mem2);
-
-    wholesalegroup::Member *mem3 = new wholesalegroup::Member(789, "kit");
-    memberList.add_member(mem3);
-
-    wholesalegroup::Member *mem4 = new wholesalegroup::Member(133, "armen", wholesalegroup::preferred);
-    memberList.add_member(mem4);
-
-    wholesalegroup::Member *mem5 = new wholesalegroup::Member(144, "eeeeeee");
-    memberList.add_member(mem5);
-
-    wholesalegroup::Member *mem6 = new wholesalegroup::Member(155, "kit", wholesalegroup::preferred);
-    memberList.add_member(mem6);
-
-
-
-           ///***********testing add purchases, remove when done testing
-            wholesalegroup::Purchase newPurchase;
-            newPurchase.item = "apple";
-            newPurchase.quantity = 3;
-            newPurchase.price = 3.45;
-            newPurchase.total = 20.54;
-            memberList[2]->AddPurchase(newPurchase);
-
-            wholesalegroup::Purchase newPurchase2;
-            newPurchase2.item = "cake";
-            newPurchase2.quantity = 9;
-            newPurchase2.price = 20.34;
-            newPurchase2.total = 304.67;
-            memberList[2]->AddPurchase(newPurchase2);
+    inventory_cap = 1;
+    inventory_sz = 0;
+    ItemNames = new string[inventory_cap];
+    initialize_inventory();
+    sort_inventory();
 }
 
-void group::printExpirations(string month)
+void group::initialize_members()
 {
-    Sequence expireList;
+    string inFileName = "warehouse shoppers.txt";
+    ifstream dataIn;
+
+    string line;
+    int i = 0;
+
+    string name;                            // i = 0
+    int id;                                 // i = 1
+    wholesalegroup::Membership mem_type;    // i = 2
+    string date;                            // i = 3
+
+    dataIn.open(inFileName);
+        while (getline(dataIn, line)){
+
+            name = line;
+            getline(dataIn, line);
+            id = stoi(line);
+            getline(dataIn, line);
+                if (line == "Preferred"){
+                    mem_type = wholesalegroup::preferred;
+                }else{
+                    mem_type = wholesalegroup::basic;
+                }
+            getline(dataIn, line);
+                date = line;
+
+            wholesalegroup::Member *new_member = new wholesalegroup::Member(id, name, mem_type, date);
+            memberList.add_member(new_member);
+
+        }
+    dataIn.close();
+
+    memberList.sort();
+}
+
+string group::printRebates()
+{
+    string output_str;
+    int ID = 0;
+    string name;
+    double rebateAmount = 0;
+
+    memberList.sort();
     memberList.start();
-    while(memberList.current())
+    while(memberList.is_item())
     {
-        //incomplete date comparison, fix later
-        if(memberList.current()->GetExpDate() == month)
+
+        if (memberList.current()->GetType() == wholesalegroup::preferred)
         {
-//            expireList.insert(new Member(memberList.current()->GetInfo()));
+            rebateAmount = memberList.current()->getRebateAmount();
+            // display to username & ID to as well as rebate amount to ui
+            output_str += std::to_string(memberList.current()->GetId());
+            output_str += " ";
+            output_str += memberList.current()->GetName();
+            output_str += " \nRebate Owed : ";
+            output_str += std::to_string(rebateAmount);
+            output_str += "\n\n";
         }
         memberList.advance();
     }
-    //display expire list in GUI
-    expireList.start();
-    //finish this when GUI implemented
+    return output_str;
+}
+
+string group::printMembershipDues()
+{
+    string output_str;
+    int ID = 0;
+    string name;
+    double dues = 0;
+
+    memberList.sort();
+    memberList.sortByPref();
+    memberList.start();
+    while(memberList.is_item())
+    {
+        dues = memberList.current()->getDues();
+        // Display to UI
+        output_str += std::to_string(memberList.current()->GetId());
+        output_str += " ";
+        output_str += memberList.current()->GetName();
+        output_str += " \nMembership Payed Per Year : ";
+        output_str += std::to_string(dues);
+        output_str += "\n\n";
+
+        memberList.advance();
+    }
+    return output_str;
+}
+
+string group::printExpirations(string month, bool &valid)
+{
+    string expDateCopy;
+    int tempInt;
+    string monthStr = month;
+    double dues = 0;
+    string output_str;
+    for(int i=0; i<month.size(); i++)
+    {
+        monthStr[i] = toupper(monthStr[i]);
+    }
+    int monthNum = 0;
+    if(monthStr == ("JANUARY"))
+        monthNum = 1;
+    else if(monthStr == ("FEBRUARY"))
+        monthNum = 2;
+    else if(monthStr == ("MARCH"))
+        monthNum = 3;
+    else if(monthStr == ("APRIL"))
+        monthNum = 4;
+    else if(monthStr == ("MAY"))
+        monthNum = 5;
+    else if(monthStr == ("JUNE"))
+        monthNum = 6;
+    else if(monthStr == ("JULY"))
+        monthNum = 7;
+    else if(monthStr == ("AUGUST"))
+        monthNum = 8;
+    else if(monthStr == ("SEPTEMBER"))
+        monthNum = 9;
+    else if(monthStr == ("OCTOBER"))
+        monthNum = 10;
+    else if(monthStr == ("NOVEMBER"))
+        monthNum = 11;
+    else if(monthStr == ("DECEMBER"))
+        monthNum = 12;
+    else
+        valid = false;
+    memberList.sort();
+    memberList.start();
+    while(memberList.is_item())
+    {
+        dues = memberList.current()->getDues();
+        expDateCopy = memberList.current()->GetExpDate();
+        tempInt = stoi(expDateCopy.substr(0, 2));
+        if(tempInt == monthNum){
+            output_str += std::to_string(memberList.current()->GetId());
+            output_str += " ";
+            output_str += memberList.current()->GetName();
+            output_str += " \nDues amount : ";
+            output_str += std::to_string(memberList.current()->getDues());
+            output_str += "\n\n";
+        }
+        memberList.advance();
+    }
+    return output_str;
 }
 
 bool group::checkUpgrade_state(string input_str, bool &valid)
@@ -116,7 +281,6 @@ bool group::checkDowngrade_state(string input_str, bool &valid)
     return answer;
 }
 
-///***ALL NEW FUNCTIONS IN THIS VERSION DEFINED BELOW
 void group::add_member_state(string input_str, bool &valid)
 {
     wholesalegroup::Membership mem_type;
@@ -163,6 +327,7 @@ void group::add_member_state(string input_str, bool &valid)
             id = stoi(id_str);
             wholesalegroup::Member *member_ptr = new wholesalegroup::Member(id, name, mem_type);
             memberList.add_member(member_ptr);
+            memberList.sort();
         }
 }
 
@@ -306,23 +471,145 @@ string group::get_Members_String()
 {
     int id;
     string name;
+    string date;
     string output_Str;
 
         for (int i = 0; i < memberList.size(); i++){
             id = memberList[i]->GetId();
             name = memberList[i]->GetName();
+            date = memberList[i]->GetExpDate();
 
             output_Str += "ID: "; output_Str += std::to_string(id); output_Str += "    ";
             output_Str += "NAME: "; output_Str += name; output_Str += "    ";
 
             output_Str += "MEMBERSHIP: ";
                 if (memberList[i]->GetType() == wholesalegroup::basic){
-                    output_Str += "Basic"; output_Str += "\n";
+                    output_Str += "Basic";
                 }else{
-                    output_Str += "Preferred"; output_Str += "\n";
+                    output_Str += "Preferred";
                 }
+
+            output_Str += "    "; output_Str += "EXP_DATE: "; output_Str += date; output_Str += "\n";
         }
 
     return output_Str;
 }
-///***END OF NEW FUNCTIONS IN THIS VERSION
+
+void group::printItemInfo(string &itemName, int &quantity, double &price, bool &valid)
+{
+    valid = false;
+    memberList.start();
+    while(memberList.is_item())
+    {
+        if (itemName == memberList.current()->GetPurchase(itemName).item)
+        {
+            quantity += memberList.current()->GetPurchase(itemName).quantity;
+            price = memberList.current()->GetPurchase(itemName).price;
+            valid = true;
+        }
+        memberList.advance();
+    }
+}
+
+void group::sort_inventory()
+{
+    int i_low;
+        for (int i = 0; i < inventory_sz; i++){
+            i_low = i;
+            for (int j = i; j < inventory_sz; j++){
+                if (ItemNames[j] < ItemNames[i_low]){
+                    i_low = j;
+                }
+            }
+            swap(ItemNames[i], ItemNames[i_low]);
+        }
+}
+
+void group::expand_inventory()
+{
+    inventory_cap *= 2;
+    string *newItems = new string[inventory_cap];
+
+    copy(ItemNames, ItemNames + (inventory_sz - 1), newItems);
+
+    delete [] ItemNames;
+    ItemNames = newItems;
+}
+
+bool group::inventory_contains(string input)
+{
+        for (int i = 0; i < inventory_sz; i++){
+            if (ItemNames[i] == input){
+                return true;
+            }
+        }
+    return false;
+}
+
+void group::add_item(string input)
+{
+    //no duplicates allowed
+    if (!inventory_contains(input)){
+        inventory_sz++;
+            if (inventory_sz > inventory_cap){
+                expand_inventory();
+            }
+        ItemNames[inventory_sz - 1] = input;
+    }
+    //if duplicate, do nothing
+}
+
+void group::initialize_inventory()
+{
+    //scan everyone
+    for (int i = 0; i < memberList.size(); i++)
+    {
+        //scan everyone's purchases
+        for (int j = 0; j < memberList[i]->PurchaseLen(); j++){
+            add_item((*memberList[i])[j].item);
+        }
+    }
+}
+
+string group::get_All_Purchases_String()
+{
+    memberList.sort();
+    string output_Str;
+    double total = 0;
+
+        for (int i = 0; i < memberList.size(); i++){
+            for (int j = 0; j < memberList[i]->PurchaseLen(); j++){
+                total += (*memberList[i])[j].total;
+            }
+
+            output_Str += get_Member_Purchases_String(i);
+            output_Str += "\n";
+        }
+
+    output_Str += "Total Revenue: "; output_Str += to_string(total); output_Str += "\n";
+
+    return output_Str;
+}
+
+string group::get_Quantities_Sold_String()
+{
+    string output_Str;
+
+    int quantity;
+    double price;
+    bool valid;
+
+    for (int i = 0; i < inventory_sz; i++){
+        quantity = 0;
+        price = 0;
+        printItemInfo(ItemNames[i], quantity, price, valid);
+        output_Str += ItemNames[i]; output_Str += "    qty: ";
+        output_Str += to_string(quantity); output_Str += "\n";
+    }
+
+
+    return output_Str;
+}
+
+
+

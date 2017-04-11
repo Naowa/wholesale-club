@@ -1,4 +1,4 @@
-//VERSION 4.1.1
+//V 3.0.0
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -88,6 +88,12 @@ void MainWindow::btn_confirm_handler()
                 }
         }
 
+        if (state == "CHECK_EXPIRATIONS"){
+            display(superWarehouseGroup.printExpirations(input_str, valid));
+            if(!valid)
+                ui->instructions->setText("Invalid Input! Month Name:");
+        }
+
         if (state == "PURCHASE_HISTORY"){
             superWarehouseGroup.purchase_history_state(input_str, valid, target_index, input_Type);
 
@@ -156,6 +162,29 @@ void MainWindow::btn_confirm_handler()
                     }
             }
         }
+
+        if (state == "ITEM_QUANTITY")
+        {
+            string itemInfo;
+            int quantity = 0;
+            double price = 0;
+            superWarehouseGroup.printItemInfo(input_str, quantity, price, valid);
+            if(valid)
+            {
+                ui->instructions->setText("Item Found.");
+                itemInfo = input_str + " \nQuantity: ";
+                itemInfo += std::to_string(quantity);
+                itemInfo += " \nPrice: ";
+                itemInfo += std::to_string(price);
+                itemInfo += "\n";
+                display(itemInfo);
+                state = "NONE";
+            }
+            else
+            {
+                ui->instructions->setText("Invalid Item Name!");
+            }
+        }
 }
 
 void MainWindow::btn_add_handler()
@@ -184,11 +213,26 @@ void MainWindow::btn_display_handler()
     display(superWarehouseGroup.get_Members_String());
 }
 
+void MainWindow::btn_item_quantity_handler()
+{
+    ui->instructions->setText("Item Name:");
+    state = "ITEM_QUANTITY";
+}
+
+void MainWindow::btn_viewAllPurchases_handler()
+{
+    ui->instructions->setText("Purchases Displayed!");
+    display(superWarehouseGroup.get_All_Purchases_String());
+}
+
+void MainWindow::btn_QtySold_handler()
+{
+    ui->instructions->setText("Quantities Sold Displayed!");
+    display(superWarehouseGroup.get_Quantities_Sold_String());
+}
 
 
 
-
-///***ADDED GROUP FUNCTIONS FROM DAMON'S VERSION
 void MainWindow::btn_checkUpgrade_handler()
 {
     ui->instructions->setText("Check Upgrade: ID:");
@@ -199,4 +243,25 @@ void MainWindow::btn_checkDowngrade_handler()
 {
     ui->instructions->setText("Check Downgrade: ID:");
     state = "CHECK_DOWNGRADE";
+}
+
+void MainWindow::btn_printExpirations_handler()
+{
+    ui->instructions->setText("Check Expirations: Month Name:");
+    state = "CHECK_EXPIRATIONS";
+}
+
+
+
+
+void MainWindow::on_radioRebate_clicked(bool checked)
+{
+  string toPrint = superWarehouseGroup.printRebates();
+  display(toPrint);
+}
+
+void MainWindow::on_radioButton_clicked(bool checked)
+{
+    string toPrint = superWarehouseGroup.printMembershipDues();
+    display(toPrint);
 }
