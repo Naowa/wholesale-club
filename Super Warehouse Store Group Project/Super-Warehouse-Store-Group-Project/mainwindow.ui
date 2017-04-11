@@ -235,6 +235,19 @@
      <string>View Quantities Sold</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnInitializeDay">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>350</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Initialize Day</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -242,7 +255,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>
@@ -299,7 +312,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>374</x>
-     <y>225</y>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
      <x>393</x>
@@ -435,6 +448,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnInitializeDay</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_initialize_day_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>384</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>370</x>
+     <y>387</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_add_handler()</slot>
@@ -448,5 +477,6 @@
   <slot>btn_item_quantity_handler()</slot>
   <slot>btn_viewAllPurchases_handler()</slot>
   <slot>btn_QtySold_handler()</slot>
+  <slot>btn_initialize_day_handler()</slot>
  </slots>
 </ui>

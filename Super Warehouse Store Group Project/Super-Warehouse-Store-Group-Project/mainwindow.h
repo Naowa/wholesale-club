@@ -1,4 +1,4 @@
-//V 3.0.0
+//V 6.9.0
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -39,6 +39,7 @@ class MainWindow : public QMainWindow
         void btn_checkUpgrade_handler();
         void btn_checkDowngrade_handler();
         void btn_printExpirations_handler();
+        void btn_initialize_day_handler();
         void on_radioRebate_clicked(bool checked);
         void on_radioButton_clicked(bool checked);
 };

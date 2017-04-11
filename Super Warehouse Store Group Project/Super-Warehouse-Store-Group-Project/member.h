@@ -1,4 +1,7 @@
-//V 3.0.0
+//v6.9.0
+//UPDATE NOTES:
+//Addded date for purchase along with appropriate functions
+//Added operator= and copy constructor
 
 #ifndef MEMBER_H
 #define MEMBER_H
@@ -25,12 +28,14 @@ struct Purchase {
     int quantity;
     double price;
     double total;
+    std::string date; //MM/DD/YYYY
 };
 
 class Member {
 public:
     Member(int id, const std::string &name = "NO_PROVIDED_NAME", Membership type = basic, std::string joinDate = "01/01/2000");
     Member(MemberInfo info);
+    Member(Member& other);
 
     inline MemberInfo& GetInfo() { return this->info;}
     inline int GetId() const { return this->info.id;}
@@ -42,15 +47,17 @@ public:
     double getAnnualTotal() const;
     double getRebateAmount();
     double getDues() const;
+    std::string getPurchaseDate(std::string& item) const;
 
     Purchase& operator[](const std::string &item) const; //can retrieve purchase by passing in item's name
     Purchase& operator[](int index) const; //can retrieve purchase by order purchased
+    void operator=(Member& other);
 
     void AddPurchase(const Purchase &purchase); //if item already exists, add to quantity and update total
-    void AddPurchase(const std::string &item, double price, int quantity = 1);
+    void AddPurchase(const std::string &item, double price, std::string date, int quantity = 1);
 
     void UpdatePurchase(const std::string &item, const Purchase &purchase);
-    void UpdatePurchase(const std::string &item, double new_price, int new_quantity = 1);
+    void UpdatePurchase(const std::string &item, double new_price, std::string date, int new_quantity = 1);
     void SetQuantity(const std::string &item, int new_quantity);
     void SetPrice(const std::string item, int new_price);
     void ChangeItemName(const std::string &old_item_name, const std::string &new_item_name);
@@ -61,6 +68,7 @@ public:
     inline void SetType(Membership new_type) { this->info.type = new_type;}
     inline void ChangeName(const std::string &new_name) { this->info.name = new_name;}
     inline void setExpDate(const std::string &expDate) {this->info.expDate = expDate;} //expDate: MM/DD/YYYY
+    void setPurchaseDate(const std::string &item, const std::string &date);
 
     ~Member();
 private:

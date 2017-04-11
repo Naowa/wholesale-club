@@ -1,4 +1,4 @@
-//V 3.0.0
+//V 6.9.0
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -86,6 +86,12 @@ void MainWindow::btn_confirm_handler()
                 }else{
                     ui->instructions->setText("Invalid Input! ID:");
                 }
+        }
+
+        if (state == "INITIALIZE_DAY"){
+            superWarehouseGroup.initialize_day(input_str, valid);
+            if(!valid)
+                ui->instructions->setText("Invalid Input! Day #:");
         }
 
         if (state == "CHECK_EXPIRATIONS"){
@@ -251,7 +257,11 @@ void MainWindow::btn_printExpirations_handler()
     state = "CHECK_EXPIRATIONS";
 }
 
-
+void MainWindow::btn_initialize_day_handler()
+{
+    ui->instructions->setText("Initialize day: Day #:");
+    state = "INITIALIZE_DAY";
+}
 
 
 void MainWindow::on_radioRebate_clicked(bool checked)

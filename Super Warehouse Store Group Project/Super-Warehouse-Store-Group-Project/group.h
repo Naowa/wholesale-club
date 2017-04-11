@@ -1,4 +1,4 @@
-//V 3.0.0
+//V 6.9.0
 
 #ifndef GROUP_H
 #define GROUP_H
@@ -30,6 +30,7 @@ public:
     string printExpirations(string month, bool &valid);
     void addMember(value_type m);
     void removeMember(value_type m);
+    void initialize_day(string fileName, bool &valid);
     bool checkUpgrade_state(string input_str, bool &valid);
     bool checkDowngrade_state(string input_str, bool &valid);
     void add_member_state(string input_str, bool &valid);

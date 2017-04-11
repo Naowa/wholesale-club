@@ -1,6 +1,6 @@
-//V 3.0.0
+//V 6.9.0
 #include "group.h"
-
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -12,54 +12,54 @@ group::group()
 
     ///**REMOVE WHEN DONE
 
-    wholesalegroup::Purchase item1;
-    item1.item = "apple";
-    item1.price = 7.55;
-    item1.quantity = 3;
-    item1.total = 56;
-    memberList[0]->AddPurchase(item1);
+//    wholesalegroup::Purchase item1;
+//    item1.item = "apple";
+//    item1.price = 7.55;
+//    item1.quantity = 3;
+//    item1.total = 56;
+//    memberList[0]->AddPurchase(item1);
 
-    wholesalegroup::Purchase item2;
-    item2.item = "apple";
-    item2.price = 1.55;
-    item2.quantity = 7;
-    item2.total = 33;
-    memberList[1]->AddPurchase(item2);
+//    wholesalegroup::Purchase item2;
+//    item2.item = "apple";
+//    item2.price = 1.55;
+//    item2.quantity = 7;
+//    item2.total = 33;
+//    memberList[1]->AddPurchase(item2);
 
-    wholesalegroup::Purchase item3;
-    item3.item = "cake";
-    item3.price = 20.67;
-    item3.quantity = 2;
-    item3.total = 33.60;
-    memberList[0]->AddPurchase(item3);
+//    wholesalegroup::Purchase item3;
+//    item3.item = "cake";
+//    item3.price = 20.67;
+//    item3.quantity = 2;
+//    item3.total = 33.60;
+//    memberList[0]->AddPurchase(item3);
 
-    wholesalegroup::Purchase item4;
-    item4.item = "cake";
-    item4.price = 20.67;
-    item4.quantity = 6;
-    item4.total = 123.67;
-    memberList[4]->AddPurchase(item4);
+//    wholesalegroup::Purchase item4;
+//    item4.item = "cake";
+//    item4.price = 20.67;
+//    item4.quantity = 6;
+//    item4.total = 123.67;
+//    memberList[4]->AddPurchase(item4);
 
-    wholesalegroup::Purchase item5;
-    item5.item = "walrus";
-    item5.price = 304.98;
-    item5.quantity = 4;
-    item5.total = 2000.52;
-    memberList[5]->AddPurchase(item5);
+//    wholesalegroup::Purchase item5;
+//    item5.item = "walrus";
+//    item5.price = 304.98;
+//    item5.quantity = 4;
+//    item5.total = 2000.52;
+//    memberList[5]->AddPurchase(item5);
 
-    wholesalegroup::Purchase item6;
-    item6.item = "candy";
-    item6.price = 0.10;
-    item6.quantity = 20;
-    item6.total = 4.00;
-    memberList[5]->AddPurchase(item6);
+//    wholesalegroup::Purchase item6;
+//    item6.item = "candy";
+//    item6.price = 0.10;
+//    item6.quantity = 20;
+//    item6.total = 4.00;
+//    memberList[5]->AddPurchase(item6);
 
-    wholesalegroup::Purchase item7;
-    item7.item = "cakes";
-    item7.price = 40.76;
-    item7.quantity = 20;
-    item7.total = 870.55;
-    memberList[5]->AddPurchase(item7);
+//    wholesalegroup::Purchase item7;
+//    item7.item = "cakes";
+//    item7.price = 40.76;
+//    item7.quantity = 20;
+//    item7.total = 870.55;
+//    memberList[5]->AddPurchase(item7);
 
     //there should be
     //apple, cake, walrus, candy
@@ -78,18 +78,59 @@ group::group()
     sort_inventory();
 }
 
+void group::initialize_day(string fileName, bool &valid)
+{
+    string inFileName = fileName + ".txt";
+    ifstream dataIn;
+    string line;
+    dataIn.open(inFileName);
+    if(!dataIn.is_open()){
+        valid = false;
+    }
+    else
+    {
+        string purchaseDate;
+        int id;
+        string itemName;
+        double itemCost;
+        int itemQuantity;
+        int index;
+
+        while(getline(dataIn, line))
+        {
+            purchaseDate = line;
+            getline(dataIn, line);
+            id = stoi(line);
+            getline(dataIn, line);
+            itemName = line;
+            dataIn >> itemCost >> itemQuantity;
+            dataIn.ignore(256, '\n');
+            index = memberList.find_user(id);
+            if(index != -1){
+                wholesalegroup::Purchase newItem;
+                newItem.item = itemName;
+                newItem.price = itemCost;
+                newItem.quantity = itemQuantity;
+                newItem.total = itemCost * itemQuantity;
+                newItem.date = purchaseDate;
+                memberList[index]->AddPurchase(newItem);
+                add_item(itemName);
+            }
+        }
+    }
+}
+
 void group::initialize_members()
 {
     string inFileName = "warehouse shoppers.txt";
     ifstream dataIn;
 
     string line;
-    int i = 0;
 
-    string name;                            // i = 0
-    int id;                                 // i = 1
-    wholesalegroup::Membership mem_type;    // i = 2
-    string date;                            // i = 3
+    string name;
+    int id;
+    wholesalegroup::Membership mem_type;
+    string date;
 
     dataIn.open(inFileName);
         while (getline(dataIn, line)){
@@ -586,7 +627,7 @@ string group::get_All_Purchases_String()
             output_Str += "\n";
         }
 
-    output_Str += "Total Revenue: "; output_Str += to_string(total); output_Str += "\n";
+    output_Str += "Total Revenue: "; output_Str += to_string(total + total * 0.0875); output_Str += "\n";
 
     return output_Str;
 }
