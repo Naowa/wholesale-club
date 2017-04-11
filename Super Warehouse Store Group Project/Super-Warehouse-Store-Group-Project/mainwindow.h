@@ -1,6 +1,4 @@
-//VERSION 4.1.5
-//UPDATE NOTES:
-//Everything here is different from the old version
+//V 6.9.0
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -35,13 +33,13 @@ class MainWindow : public QMainWindow
         void btn_remove_handler();
         void btn_purchases_handler();
         void btn_display_handler();
-        void btn_item_quantity_handler(); // Kit 4/10/2017
-
-        ///***ADDED GROUP FUNCTIONS FROM DAMON'S VERSION
+        void btn_item_quantity_handler();
+        void btn_viewAllPurchases_handler();
+        void btn_QtySold_handler();
         void btn_checkUpgrade_handler();
         void btn_checkDowngrade_handler();
         void btn_printExpirations_handler();
-private slots:
+        void btn_initialize_day_handler();
         void on_radioRebate_clicked(bool checked);
         void on_radioButton_clicked(bool checked);
 };

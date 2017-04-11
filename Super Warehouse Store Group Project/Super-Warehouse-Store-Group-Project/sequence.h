@@ -1,11 +1,4 @@
-// version 0.1.5
-// SEQUENCE CLASS FOR OUR SUPER WAREHOUSE PROJECT
-
-//UPDATE NOTES:
-//New functions are indicated below/functions that were changed
-//operator [] was fixed, assertion was incorrect
-//add_member was updated with a newer version, checks for duplicates and sorts
-//remove_member is the same, unchanged
+//V 3.0.0
 
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
@@ -51,22 +44,15 @@ public:
     inline size_type size() const { return this->used; }
     inline size_type Get_Capacity(){return this->capacity;}
 
-
-    ///***NEW FUNCTIONS IN THIS VERSION
     void add_member(valPtr &entry);
     void remove_member(int id);
     int find_user(int id);
     int find_user(string name);
 
-    //***DAMON'S GROUP CHECK UPGRADE AND DOWNGRADE MOVED HERE
     bool checkUpgrade(int id);
     bool checkDowngrade(int id);
 
-    ///***END OF NEW FUNCTIONS IN THIS VERSION
-
-    //**KITS SORT PREFERRED
     Sequence& sortByPref();
-    // ** END
 private:
     size_type capacity;
     valPtr* data;

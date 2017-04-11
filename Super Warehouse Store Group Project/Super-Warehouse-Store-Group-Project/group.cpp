@@ -1,6 +1,6 @@
-//v1.4.11
+//V 6.9.0
 #include "group.h"
-
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -9,6 +9,115 @@ group::group()
 {
     memberList.start();
     initialize_members();
+
+    ///**REMOVE WHEN DONE
+
+//    wholesalegroup::Purchase item1;
+//    item1.item = "apple";
+//    item1.price = 7.55;
+//    item1.quantity = 3;
+//    item1.total = 56;
+//    memberList[0]->AddPurchase(item1);
+
+//    wholesalegroup::Purchase item2;
+//    item2.item = "apple";
+//    item2.price = 1.55;
+//    item2.quantity = 7;
+//    item2.total = 33;
+//    memberList[1]->AddPurchase(item2);
+
+//    wholesalegroup::Purchase item3;
+//    item3.item = "cake";
+//    item3.price = 20.67;
+//    item3.quantity = 2;
+//    item3.total = 33.60;
+//    memberList[0]->AddPurchase(item3);
+
+//    wholesalegroup::Purchase item4;
+//    item4.item = "cake";
+//    item4.price = 20.67;
+//    item4.quantity = 6;
+//    item4.total = 123.67;
+//    memberList[4]->AddPurchase(item4);
+
+//    wholesalegroup::Purchase item5;
+//    item5.item = "walrus";
+//    item5.price = 304.98;
+//    item5.quantity = 4;
+//    item5.total = 2000.52;
+//    memberList[5]->AddPurchase(item5);
+
+//    wholesalegroup::Purchase item6;
+//    item6.item = "candy";
+//    item6.price = 0.10;
+//    item6.quantity = 20;
+//    item6.total = 4.00;
+//    memberList[5]->AddPurchase(item6);
+
+//    wholesalegroup::Purchase item7;
+//    item7.item = "cakes";
+//    item7.price = 40.76;
+//    item7.quantity = 20;
+//    item7.total = 870.55;
+//    memberList[5]->AddPurchase(item7);
+
+    //there should be
+    //apple, cake, walrus, candy
+    //qty of apple: 10
+    //qty of cake is 28;
+    //qty of candy is 20
+    //qty of walrus is 4
+
+    ///***REMOVE WHEN DONE
+
+
+    inventory_cap = 1;
+    inventory_sz = 0;
+    ItemNames = new string[inventory_cap];
+    initialize_inventory();
+    sort_inventory();
+}
+
+void group::initialize_day(string fileName, bool &valid)
+{
+    string inFileName = fileName + ".txt";
+    ifstream dataIn;
+    string line;
+    dataIn.open(inFileName);
+    if(!dataIn.is_open()){
+        valid = false;
+    }
+    else
+    {
+        string purchaseDate;
+        int id;
+        string itemName;
+        double itemCost;
+        int itemQuantity;
+        int index;
+
+        while(getline(dataIn, line))
+        {
+            purchaseDate = line;
+            getline(dataIn, line);
+            id = stoi(line);
+            getline(dataIn, line);
+            itemName = line;
+            dataIn >> itemCost >> itemQuantity;
+            dataIn.ignore(256, '\n');
+            index = memberList.find_user(id);
+            if(index != -1){
+                wholesalegroup::Purchase newItem;
+                newItem.item = itemName;
+                newItem.price = itemCost;
+                newItem.quantity = itemQuantity;
+                newItem.total = itemCost * itemQuantity;
+                newItem.date = purchaseDate;
+                memberList[index]->AddPurchase(newItem);
+                add_item(itemName);
+            }
+        }
+    }
 }
 
 void group::initialize_members()
@@ -17,12 +126,11 @@ void group::initialize_members()
     ifstream dataIn;
 
     string line;
-    int i = 0;
 
-    string name;                            // i = 0
-    int id;                                 // i = 1
-    wholesalegroup::Membership mem_type;    // i = 2
-    string date;                            // i = 3
+    string name;
+    int id;
+    wholesalegroup::Membership mem_type;
+    string date;
 
     dataIn.open(inFileName);
         while (getline(dataIn, line)){
@@ -214,7 +322,6 @@ bool group::checkDowngrade_state(string input_str, bool &valid)
     return answer;
 }
 
-///***ALL NEW FUNCTIONS IN THIS VERSION DEFINED BELOW
 void group::add_member_state(string input_str, bool &valid)
 {
     wholesalegroup::Membership mem_type;
@@ -444,4 +551,106 @@ void group::printItemInfo(string &itemName, int &quantity, double &price, bool &
         memberList.advance();
     }
 }
-///***END OF NEW FUNCTIONS IN THIS VERSION
+
+void group::sort_inventory()
+{
+    int i_low;
+        for (int i = 0; i < inventory_sz; i++){
+            i_low = i;
+            for (int j = i; j < inventory_sz; j++){
+                if (ItemNames[j] < ItemNames[i_low]){
+                    i_low = j;
+                }
+            }
+            swap(ItemNames[i], ItemNames[i_low]);
+        }
+}
+
+void group::expand_inventory()
+{
+    inventory_cap *= 2;
+    string *newItems = new string[inventory_cap];
+
+    copy(ItemNames, ItemNames + (inventory_sz - 1), newItems);
+
+    delete [] ItemNames;
+    ItemNames = newItems;
+}
+
+bool group::inventory_contains(string input)
+{
+        for (int i = 0; i < inventory_sz; i++){
+            if (ItemNames[i] == input){
+                return true;
+            }
+        }
+    return false;
+}
+
+void group::add_item(string input)
+{
+    //no duplicates allowed
+    if (!inventory_contains(input)){
+        inventory_sz++;
+            if (inventory_sz > inventory_cap){
+                expand_inventory();
+            }
+        ItemNames[inventory_sz - 1] = input;
+    }
+    //if duplicate, do nothing
+}
+
+void group::initialize_inventory()
+{
+    //scan everyone
+    for (int i = 0; i < memberList.size(); i++)
+    {
+        //scan everyone's purchases
+        for (int j = 0; j < memberList[i]->PurchaseLen(); j++){
+            add_item((*memberList[i])[j].item);
+        }
+    }
+}
+
+string group::get_All_Purchases_String()
+{
+    memberList.sort();
+    string output_Str;
+    double total = 0;
+
+        for (int i = 0; i < memberList.size(); i++){
+            for (int j = 0; j < memberList[i]->PurchaseLen(); j++){
+                total += (*memberList[i])[j].total;
+            }
+
+            output_Str += get_Member_Purchases_String(i);
+            output_Str += "\n";
+        }
+
+    output_Str += "Total Revenue: "; output_Str += to_string(total + total * 0.0875); output_Str += "\n";
+
+    return output_Str;
+}
+
+string group::get_Quantities_Sold_String()
+{
+    string output_Str;
+
+    int quantity;
+    double price;
+    bool valid;
+
+    for (int i = 0; i < inventory_sz; i++){
+        quantity = 0;
+        price = 0;
+        printItemInfo(ItemNames[i], quantity, price, valid);
+        output_Str += ItemNames[i]; output_Str += "    qty: ";
+        output_Str += to_string(quantity); output_Str += "\n";
+    }
+
+
+    return output_Str;
+}
+
+
+
