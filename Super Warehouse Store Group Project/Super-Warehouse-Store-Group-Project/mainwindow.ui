@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>439</height>
+    <height>462</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
      <string>Add Member</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnMonth">
+   <widget class="QPushButton" name="btnAllPurchases">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>View Month</string>
+     <string>View All Purchases</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnExpire">
@@ -186,8 +186,8 @@
    <widget class="QRadioButton" name="radioRebate">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>310</y>
+      <x>380</x>
+      <y>350</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -199,8 +199,8 @@
    <widget class="QRadioButton" name="radioButton">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>340</y>
+      <x>380</x>
+      <y>370</y>
       <width>131</width>
       <height>20</height>
      </rect>
@@ -222,6 +222,19 @@
      <string>Item Quantity</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnQuantities">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Quantities Sold</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -229,7 +242,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -286,7 +299,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>374</x>
-     <y>232</y>
+     <y>225</y>
     </hint>
     <hint type="destinationlabel">
      <x>393</x>
@@ -390,6 +403,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnAllPurchases</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_viewAllPurchases_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>298</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>304</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnQuantities</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_QtySold_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>126</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>356</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_add_handler()</slot>
@@ -401,5 +446,7 @@
   <slot>btn_checkDowngrade_handler()</slot>
   <slot>btn_printExpirations_handler()</slot>
   <slot>btn_item_quantity_handler()</slot>
+  <slot>btn_viewAllPurchases_handler()</slot>
+  <slot>btn_QtySold_handler()</slot>
  </slots>
 </ui>

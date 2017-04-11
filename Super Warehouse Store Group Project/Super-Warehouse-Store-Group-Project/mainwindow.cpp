@@ -1,4 +1,4 @@
-//VERSION 4.1.5
+//V 3.0.0
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -213,16 +213,26 @@ void MainWindow::btn_display_handler()
     display(superWarehouseGroup.get_Members_String());
 }
 
-void MainWindow::btn_item_quantity_handler()                // Kit 4/10/2017
+void MainWindow::btn_item_quantity_handler()
 {
     ui->instructions->setText("Item Name:");
     state = "ITEM_QUANTITY";
 }
 
+void MainWindow::btn_viewAllPurchases_handler()
+{
+    ui->instructions->setText("Purchases Displayed!");
+    display(superWarehouseGroup.get_All_Purchases_String());
+}
+
+void MainWindow::btn_QtySold_handler()
+{
+    ui->instructions->setText("Quantities Sold Displayed!");
+    display(superWarehouseGroup.get_Quantities_Sold_String());
+}
 
 
 
-///***ADDED GROUP FUNCTIONS FROM DAMON'S VERSION
 void MainWindow::btn_checkUpgrade_handler()
 {
     ui->instructions->setText("Check Upgrade: ID:");
@@ -243,12 +253,11 @@ void MainWindow::btn_printExpirations_handler()
 
 
 
-/// ***KIT'S Functions
+
 void MainWindow::on_radioRebate_clicked(bool checked)
 {
   string toPrint = superWarehouseGroup.printRebates();
   display(toPrint);
-  // ui->displayBox->setText(toPrint);
 }
 
 void MainWindow::on_radioButton_clicked(bool checked)

@@ -1,7 +1,7 @@
-// version 0.1.5
+//V 3.0.0
 #include "sequence.h"
 #include <iostream>
-#include <algorithm>                   // used for copy. Again should we right our own?
+#include <algorithm>
 
 Sequence::Sequence(): used(0), current_index(0), capacity(20)
 {
@@ -22,7 +22,7 @@ void Sequence::start()
     if (this->used != 0)
         this->current_index = 0;
     else
-        this->data[current_index] = NULL;			// Why do i need this again?
+        this->data[current_index] = NULL;
 }
 
 void Sequence::advance()
@@ -81,7 +81,7 @@ void Sequence::remove_current()
     }
     else
     {
-        std::cout << "Not an item." << std::endl;					// maybe put something here later
+        std::cout << "Not an item." << std::endl;
     }
 }
 
@@ -144,7 +144,7 @@ Sequence::valPtr Sequence::current()
     if (is_item())
         return this->data[current_index];
     else
-        return NULL;						// Don't know if right for sure
+        return NULL;
 }
 
 void Sequence::display()
@@ -163,7 +163,6 @@ Sequence::valPtr Sequence::operator [] (size_type index)
     return this->data[index];
 }
 
-///**NEW FUNCTIONS IN THIS VERSION
 void Sequence::add_member(valPtr &entry)
 {
         // Check for duplicates
@@ -179,7 +178,6 @@ void Sequence::add_member(valPtr &entry)
         }
     data[used] = entry;
     used++;
-    // sort();                                      // Kit : "I had to remove this. Will explain eslewhere."
 }
 
 void Sequence::remove_member(int id)
@@ -288,9 +286,7 @@ int Sequence::find_user(string name)
     //error code -1 if not found
     return -1;
 }
-///**END OF NEW FUNCTIONS IN THIS VERSION
 
-///**NewFunction from version 0.1.5
 Sequence& Sequence::sortByPref()
 {
 	Sequence* prefSorted = new Sequence;
@@ -322,4 +318,3 @@ Sequence& Sequence::sortByPref()
 	}
 	return *prefSorted;
 }
-//** End of new function from version 0.1.5
