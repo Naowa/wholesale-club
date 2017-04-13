@@ -1,4 +1,4 @@
-//V 6.9.0
+//V 7.1.2
 
 #ifndef GROUP_H
 #define GROUP_H
@@ -41,6 +41,8 @@ public:
     string get_Members_String();
     string get_All_Purchases_String();
     string get_Quantities_Sold_String();
+
+    string dailySalesReport(string dayDate, bool &valid);
 private:
     Sequence memberList;
     void initialize_members();
