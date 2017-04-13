@@ -8,7 +8,7 @@ using namespace std;
 
 /**********************************************************
  *
- * group
+ * group - O(n)
  *_________________________________________________________
  * default ctr
  *_________________________________________________________
@@ -37,7 +37,7 @@ group::group()
 
 /**********************************************************
  *
- * initialize_day
+ * initialize_day - O(n^2)
  *_________________________________________________________
  * initializes a particular day's information from a txt file
  *_________________________________________________________
@@ -93,6 +93,20 @@ void group::initialize_day(string fileName, bool &valid)
     }
 }
 
+/**********************************************************
+ *
+ * initialize_members - O(n)
+ *_________________________________________________________
+ * initializes members for a particular day
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::initialize_members()
 {
     string inFileName = "warehouse shoppers.txt";
@@ -129,6 +143,20 @@ void group::initialize_members()
     memberList.sort();
 }
 
+/**********************************************************
+ *
+ * printRebates - O(n)
+ *_________________________________________________________
+ * returns a string with rebates
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ *
+ * POST-CONDITIONS
+ * output_str: a string is returned
+ **********************************************************/
+
 string group::printRebates()
 {
     string output_str;
@@ -157,6 +185,20 @@ string group::printRebates()
     return output_str;
 }
 
+/**********************************************************
+ *
+ * printMembershipDues - O(n)
+ *_________________________________________________________
+ * returns a string with membership dues
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ *
+ * POST-CONDITIONS
+ * output_str: a string is returned
+ **********************************************************/
+
 string group::printMembershipDues()
 {
     string output_str;
@@ -182,6 +224,22 @@ string group::printMembershipDues()
     }
     return output_str;
 }
+
+/**********************************************************
+ *
+ * printExpirations - O(n^2)
+ *_________________________________________________________
+ * returns a string with expiring members in a month
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * month: needs a month input
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * output_str: a string is returned
+ **********************************************************/
 
 string group::printExpirations(string month, bool &valid)
 {
@@ -241,6 +299,22 @@ string group::printExpirations(string month, bool &valid)
     return output_str;
 }
 
+/**********************************************************
+ *
+ * checkUpgrade_state - O(n)
+ *_________________________________________________________
+ * returns a bool
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * input_str: needs user input
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 bool group::checkUpgrade_state(string input_str, bool &valid)
 {
     int id;
@@ -268,6 +342,22 @@ bool group::checkUpgrade_state(string input_str, bool &valid)
     return answer;
 }
 
+/**********************************************************
+ *
+ * checkDowngrade_state - O(n)
+ *_________________________________________________________
+ * returns a bool
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * input_str: needs user input
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 bool group::checkDowngrade_state(string input_str, bool &valid)
 {
     int id;
@@ -294,6 +384,22 @@ bool group::checkDowngrade_state(string input_str, bool &valid)
         }
     return answer;
 }
+
+/**********************************************************
+ *
+ * add_member_state - O(n)
+ *_________________________________________________________
+ * adds a member to group
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * input_str: needs user input
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void group::add_member_state(string input_str, bool &valid)
 {
@@ -345,6 +451,22 @@ void group::add_member_state(string input_str, bool &valid)
         }
 }
 
+/**********************************************************
+ *
+ * remove_member_state - O(n)
+ *_________________________________________________________
+ * removes a member from the group
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * input_str: needs user input
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::remove_member_state(string input_str, bool &valid)
 {
     int id;
@@ -369,6 +491,24 @@ void group::remove_member_state(string input_str, bool &valid)
             memberList.remove_member(id);
         }
 }
+
+/**********************************************************
+ *
+ * purchase_history_state - O(n)
+ *_________________________________________________________
+ * checks purchase history of a person
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * input_str: needs user input
+ * valid: needs a validation bool
+ * target_index: needs an index of a member
+ * input_type: determines name or id as input
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void group::purchase_history_state(string input_str, bool &valid, int &target_index, string &input_Type)
 {
@@ -427,6 +567,24 @@ void group::purchase_history_state(string input_str, bool &valid, int &target_in
         }
 }
 
+/**********************************************************
+ *
+ * purchase_history_special_state - O(n)
+ *_________________________________________________________
+ * checks purchase history of a person
+ * (helper to purchase_history_state when duplicate names are involved)
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * input_str: needs user input
+ * valid: needs a validation bool
+ * target_index: needs an index of a member
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::purchase_history_special_state(string input_str, bool &valid, int &target_index)
 {
     int id;
@@ -451,6 +609,21 @@ void group::purchase_history_special_state(string input_str, bool &valid, int &t
             target_index = memberList.find_user(id);
         }
 }
+
+/**********************************************************
+ *
+ * get_Member_Purchases_String - O(n^2)
+ *_________________________________________________________
+ * returns a string with a member's purchases
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * index: needs an index of a member
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 string group::get_Member_Purchases_String(int index){
     //purchase history lookup, one function for id, one for name
@@ -481,6 +654,20 @@ string group::get_Member_Purchases_String(int index){
     return output_Str;
 }
 
+/**********************************************************
+ *
+ * get_Members_String - O(n^2)
+ *_________________________________________________________
+ * returns a string with all members
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 string group::get_Members_String()
 {
     int id;
@@ -509,6 +696,24 @@ string group::get_Members_String()
     return output_Str;
 }
 
+/**********************************************************
+ *
+ * printItemInfo - O(n)
+ *_________________________________________________________
+ * no return type, but reference item properties are changed
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * itemName: needs an item name
+ * quantity: needs an item qty
+ * price: needs a price
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::printItemInfo(string &itemName, int &quantity, double &price, bool &valid)
 {
     valid = false;
@@ -525,6 +730,21 @@ void group::printItemInfo(string &itemName, int &quantity, double &price, bool &
     }
 }
 
+/**********************************************************
+ *
+ * sort_inventory - O(n^2)
+ *_________________________________________________________
+ * sorts items in inventory
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * inventory_sz: needs a sz
+ * ItemNames: needs an item names array
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::sort_inventory()
 {
     int i_low;
@@ -539,6 +759,22 @@ void group::sort_inventory()
         }
 }
 
+/**********************************************************
+ *
+ * expand_inventory - O(n)
+ *_________________________________________________________
+ * doubles capacity of inventory
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * inventory_sz: needs a sz
+ * inventory_cap: needs a capacity
+ * ItemNames: needs an item names array
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::expand_inventory()
 {
     inventory_cap *= 2;
@@ -550,6 +786,21 @@ void group::expand_inventory()
     ItemNames = newItems;
 }
 
+/**********************************************************
+ *
+ * inventory_contains - O(n)
+ *_________________________________________________________
+ * returns a bool depending on if the inventory already contains an item
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * inventory_sz: needs a sz
+ * ItemNames: needs an item names array
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 bool group::inventory_contains(string input)
 {
         for (int i = 0; i < inventory_sz; i++){
@@ -559,6 +810,23 @@ bool group::inventory_contains(string input)
         }
     return false;
 }
+
+/**********************************************************
+ *
+ * add_item - O(n)
+ *_________________________________________________________
+ * adds an item to the item names array
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * inventory_sz: needs a sz
+ * inventory_cap: needs a cap
+ * ItemNames: needs an item names array
+ * input: needs an input for item name
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void group::add_item(string input)
 {
@@ -573,6 +841,20 @@ void group::add_item(string input)
     //if duplicate, do nothing
 }
 
+/**********************************************************
+ *
+ * initialize_inventory - O(n^2)
+ *_________________________________________________________
+ * generates an inventory of item names
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: needs a sequence of members
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void group::initialize_inventory()
 {
     //scan everyone
@@ -584,6 +866,20 @@ void group::initialize_inventory()
         }
     }
 }
+
+/**********************************************************
+ *
+ * get_All_Purchases_String - O(n^2)
+ *_________________________________________________________
+ * returns a string with all purchases
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: needs a sequence of members
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 string group::get_All_Purchases_String()
 {
@@ -605,6 +901,21 @@ string group::get_All_Purchases_String()
     return output_Str;
 }
 
+/**********************************************************
+ *
+ * get_Quantities_Sold_String - O(n^2)
+ *_________________________________________________________
+ * returns a string with quantities of items sold
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * inventory_sz: needs a sz
+ * ItemNames: needs an arr with item names
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 string group::get_Quantities_Sold_String()
 {
     string output_Str;
@@ -625,6 +936,21 @@ string group::get_Quantities_Sold_String()
     return output_Str;
 }
 
+/**********************************************************
+ *
+ * dailySalesReport - O(n^3)
+ *_________________________________________________________
+ * returns a string with daily sales report information
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: needs a sequence of members
+ * dayDate: needs a file name
+ * valid: needs a validation bool
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 string group::dailySalesReport(string dayDate, bool &valid)
 {
