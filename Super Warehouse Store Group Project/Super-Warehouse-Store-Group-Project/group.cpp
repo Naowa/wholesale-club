@@ -1,75 +1,32 @@
-//V 7.1.2
+//V 1.3.3.7
+
 #include "group.h"
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
+/**********************************************************
+ *
+ * group
+ *_________________________________________________________
+ * default ctr
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * memberList: a sequence of members
+ * inventory_cap: capacity of the inventory
+ * inventory_sz: sz of the inventory
+ * ItemNames: array of item names
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 group::group()
 {
     memberList.start();
     initialize_members();
-
-    ///**REMOVE WHEN DONE
-
-//    wholesalegroup::Purchase item1;
-//    item1.item = "apple";
-//    item1.price = 7.55;
-//    item1.quantity = 3;
-//    item1.total = 56;
-//    memberList[0]->AddPurchase(item1);
-
-//    wholesalegroup::Purchase item2;
-//    item2.item = "apple";
-//    item2.price = 1.55;
-//    item2.quantity = 7;
-//    item2.total = 33;
-//    memberList[1]->AddPurchase(item2);
-
-//    wholesalegroup::Purchase item3;
-//    item3.item = "cake";
-//    item3.price = 20.67;
-//    item3.quantity = 2;
-//    item3.total = 33.60;
-//    memberList[0]->AddPurchase(item3);
-
-//    wholesalegroup::Purchase item4;
-//    item4.item = "cake";
-//    item4.price = 20.67;
-//    item4.quantity = 6;
-//    item4.total = 123.67;
-//    memberList[4]->AddPurchase(item4);
-
-//    wholesalegroup::Purchase item5;
-//    item5.item = "walrus";
-//    item5.price = 304.98;
-//    item5.quantity = 4;
-//    item5.total = 2000.52;
-//    memberList[5]->AddPurchase(item5);
-
-//    wholesalegroup::Purchase item6;
-//    item6.item = "candy";
-//    item6.price = 0.10;
-//    item6.quantity = 20;
-//    item6.total = 4.00;
-//    memberList[5]->AddPurchase(item6);
-
-//    wholesalegroup::Purchase item7;
-//    item7.item = "cakes";
-//    item7.price = 40.76;
-//    item7.quantity = 20;
-//    item7.total = 870.55;
-//    memberList[5]->AddPurchase(item7);
-
-    //there should be
-    //apple, cake, walrus, candy
-    //qty of apple: 10
-    //qty of cake is 28;
-    //qty of candy is 20
-    //qty of walrus is 4
-
-    ///***REMOVE WHEN DONE
-
 
     inventory_cap = 1;
     inventory_sz = 0;
@@ -77,6 +34,22 @@ group::group()
     initialize_inventory();
     sort_inventory();
 }
+
+/**********************************************************
+ *
+ * initialize_day
+ *_________________________________________________________
+ * initializes a particular day's information from a txt file
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * fileName: need an input for file name
+ * valid: need a bool for validation/error checking
+ * memberList: needs to have a member list
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void group::initialize_day(string fileName, bool &valid)
 {

@@ -1,4 +1,4 @@
-//V 6.9.0
+//V 1.3.3.7
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -71,6 +71,12 @@ void MainWindow::btn_confirm_handler()
                 }else{
                     ui->instructions->setText("Invalid Input! ID:");
                 }
+        }
+
+        if (state == "DAILY_SALES_REPORT"){
+            display(superWarehouseGroup.dailySalesReport(input_str, valid));
+            if (!valid)
+                ui->instructions->setText("Invalid Input!: FileName:");
         }
 
         if (state == "CHECK_DOWNGRADE"){
@@ -237,8 +243,6 @@ void MainWindow::btn_QtySold_handler()
     display(superWarehouseGroup.get_Quantities_Sold_String());
 }
 
-
-
 void MainWindow::btn_checkUpgrade_handler()
 {
     ui->instructions->setText("Check Upgrade: ID:");
@@ -263,14 +267,19 @@ void MainWindow::btn_initialize_day_handler()
     state = "INITIALIZE_DAY";
 }
 
+void MainWindow::btn_daily_sales_report()
+{
+    ui->instructions->setText("View Sales Report: FileName:");
+    state = "DAILY_SALES_REPORT";
+}
 
-void MainWindow::on_radioRebate_clicked(bool checked)
+void MainWindow::btn_rebate_handler()
 {
   string toPrint = superWarehouseGroup.printRebates();
   display(toPrint);
 }
 
-void MainWindow::on_radioButton_clicked(bool checked)
+void MainWindow::btn_dues_handler()
 {
     string toPrint = superWarehouseGroup.printMembershipDues();
     display(toPrint);

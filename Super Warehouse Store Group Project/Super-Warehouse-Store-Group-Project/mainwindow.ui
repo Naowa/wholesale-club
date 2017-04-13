@@ -183,32 +183,6 @@
      <string>Display Members</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioRebate">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>350</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Rebate Report</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>370</y>
-      <width>131</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Membership Dues</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btnItemQuantity">
     <property name="geometry">
      <rect>
@@ -248,6 +222,45 @@
      <string>Initialize Day</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnDailySalesReport">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Daily Sales Report</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnMembershipDues">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>370</y>
+      <width>151</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Membership Dues</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnRebateReport">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>350</y>
+      <width>151</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rebate Report</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -255,7 +268,7 @@
      <x>0</x>
      <y>0</y>
      <width>550</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -464,6 +477,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btnDailySalesReport</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_daily_sales_report()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>107</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>178</x>
+     <y>400</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnRebateReport</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_rebate_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>522</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>538</x>
+     <y>389</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnMembershipDues</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_dues_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>515</x>
+     <y>419</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>421</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_add_handler()</slot>
@@ -478,5 +539,8 @@
   <slot>btn_viewAllPurchases_handler()</slot>
   <slot>btn_QtySold_handler()</slot>
   <slot>btn_initialize_day_handler()</slot>
+  <slot>btn_daily_sales_report()</slot>
+  <slot>btn_dues_handler()</slot>
+  <slot>btn_rebate_handler()</slot>
  </slots>
 </ui>

@@ -1,7 +1,4 @@
-//v6.9.0
-//UPDATE NOTES:
-//Addded date for purchase along with appropriate functions
-//Added operator= and copy constructor
+//V 1.3.3.7
 
 #ifndef MEMBER_H
 #define MEMBER_H
