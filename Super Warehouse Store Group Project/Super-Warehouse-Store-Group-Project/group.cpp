@@ -1,4 +1,4 @@
-//V 6.9.0
+//V 3.1.1
 #include "group.h"
 #include <iostream>
 #include <fstream>
@@ -76,6 +76,11 @@ group::group()
     ItemNames = new string[inventory_cap];
     initialize_inventory();
     sort_inventory();
+
+    // TESTING FOR DAILY SALES REPORT! Remove 3 lines below later!!!!!!!!!!!!!!!!
+    // bool valid;
+    // string test1 = dailySalesReport("day1",valid);
+    // cout << test1;
 }
 
 void group::initialize_day(string fileName, bool &valid)
@@ -104,18 +109,12 @@ void group::initialize_day(string fileName, bool &valid)
             getline(dataIn, line);
             itemName = line;
             dataIn >> itemCost >> itemQuantity;
+            cout << id << " " << itemName <<" "<<itemCost<<" "<<itemQuantity << endl;
             dataIn.ignore(256, '\n');
             index = memberList.find_user(id);
-            if(index != -1){
-                wholesalegroup::Purchase newItem;
-                newItem.item = itemName;
-                newItem.price = itemCost;
-                newItem.quantity = itemQuantity;
-                newItem.total = itemCost * itemQuantity;
-                newItem.date = purchaseDate;
-                memberList[index]->AddPurchase(newItem);
-                add_item(itemName);
-            }
+            if(index != -1)
+                memberList[index]->AddPurchase(itemName, itemCost, purchaseDate, itemQuantity);
+            dataIn.clear();
         }
     }
 }
@@ -126,11 +125,12 @@ void group::initialize_members()
     ifstream dataIn;
 
     string line;
+    int i = 0;
 
-    string name;
-    int id;
-    wholesalegroup::Membership mem_type;
-    string date;
+    string name;                                                 // i = 0
+    int id;                                                           // i = 1
+    wholesalegroup::Membership mem_type;      // i = 2
+    string date;                                                    // i = 3
 
     dataIn.open(inFileName);
         while (getline(dataIn, line)){
@@ -627,7 +627,7 @@ string group::get_All_Purchases_String()
             output_Str += "\n";
         }
 
-    output_Str += "Total Revenue: "; output_Str += to_string(total + total * 0.0875); output_Str += "\n";
+    output_Str += "Total Revenue: "; output_Str += to_string(total); output_Str += "\n";
 
     return output_Str;
 }
@@ -647,10 +647,172 @@ string group::get_Quantities_Sold_String()
         output_Str += ItemNames[i]; output_Str += "    qty: ";
         output_Str += to_string(quantity); output_Str += "\n";
     }
-
-
     return output_Str;
 }
 
+/*
+void group::dailySalesReport(string dayDate, bool &valid)
+{
+   string output_str;
 
+   Purchase itemArr[100];
+   int itemArrCount = 0;
+   for(int i=0; i<memberList.size(); i++){
+       for(int j=0; j<memberList[i]->PurchaseLen(); j++){
+           if(dayDate == (*memberList[i])[j].date){
+//                output_str += (*memberList[i])[j].item + " " + (*memberList[i])[j].quantity;
+               for(int k=0; k<100; k++){
+                   if(itemArr[k].item == (*memberList[i])[j].item){
+                       itemArr[k].quantity += (*memberList[i])[j].quantity;
+                   }
+               }
+               itemArr[itemArrCount] = (*memberList[i])[j];
+           }
+       }
+   }
+}
+*/
 
+string group::dailySalesReport(string dayDate, bool &valid)
+{
+    string output_str;      // Overall string to be sent back
+
+    string ItemQuantityArray[20][2];        // 2D array with item and accompanying quantity
+    string DailyCustomerList[20];       // array of customers who shopped this day
+    //Initializing both the arrays
+    for (int i = 0; i < 20; i++)
+    {
+        for (int j = 0; j < 2; j++)
+        {
+            ItemQuantityArray[i][j] = "?";
+        }
+        DailyCustomerList[i] = "?";
+    }
+    double totalRevenue = 0;            // total revenue
+    int prefCount = 0;
+    int basicCount = 0;
+
+    string inFileName = dayDate + ".txt";
+    ifstream dataIn;
+    string line;
+    dataIn.open(inFileName);
+    if(!dataIn.is_open()){
+        valid = false;
+    }
+    else
+    {
+        // Filled from the file
+        string purchaseDate;
+        int id;
+        string itemName;
+        double itemCost;
+        int itemQuantity;
+        // Indirect filled
+        int index;
+        string CustomerName;
+        bool isBasic;
+
+        while(getline(dataIn, line))
+        {
+            // Info Gathering from File
+            purchaseDate = line;
+            getline(dataIn,line);
+            id = stoi(line);
+            getline(dataIn, line);
+            itemName = line;
+            dataIn >> itemCost >> itemQuantity;
+            dataIn.ignore(256,'\n');
+            // Things filled in INDIRECTLY from the file
+            index = memberList.find_user(id);
+            totalRevenue += itemCost * itemQuantity;
+
+            // Finds the name associated with the id and set/unset basic flag
+            memberList.start();
+            while(memberList.is_item())
+            {
+                if(memberList.current()->GetId() == id)
+                {
+                    CustomerName = memberList.current()->GetName();
+                    // Determine if basic or not
+                    if (memberList.current()->GetType() == wholesalegroup::basic)
+                        isBasic = true;
+                    else
+                        isBasic = false;
+                    break;
+                }
+                else
+                    memberList.advance();
+            }
+            // Places Name into array
+            for(int i = 0; i < 20; i++)
+            {
+                if (DailyCustomerList[i] == "?")
+                {
+                    DailyCustomerList[i] = CustomerName;
+                    break;
+                }
+                if (DailyCustomerList[i] == CustomerName)
+                    break;
+            }
+
+            // Fill the 2D array with name and quantity if not found. Add quantity if found.
+            // Break for each! Also update basic/pref count if new entry
+            for (int i = 0; i < 20; i++)
+            {
+                if (ItemQuantityArray[i][0] == "?")
+                {
+                    ItemQuantityArray[i][0] = itemName;
+                    ItemQuantityArray[i][1] = to_string(itemQuantity);
+                    if (isBasic)
+                        basicCount++;
+                    else
+                        prefCount++;
+                    break;
+                }
+                if (ItemQuantityArray[i][0] == itemName)
+                {
+                    int sumQuantity = itemQuantity + stoi(ItemQuantityArray[i][1]);
+                    ItemQuantityArray[i][1] = to_string(sumQuantity);
+                    break;
+                }
+            }
+        }
+        //Outside whileloop
+        //Place info in string to be read as report
+        output_str += "Daily Sales Report\n";
+        // Item and Quantity
+        for (int i = 0; i < 20; i++)
+        {
+            if (ItemQuantityArray[i][0] != "?")
+            {
+                output_str += to_string(i) + ") ";
+                output_str += ItemQuantityArray[i][0];
+                output_str += "\nQuantity Sold:";
+                output_str += ItemQuantityArray[i][1];
+                output_str += "\n";
+            }
+        }
+        // Members who shopped that day
+        output_str += "\nMembers who shoppped here today.\n";
+        for (int i = 0; i < 20; i++)
+        {
+            if (DailyCustomerList[i] != "?")
+            {
+                output_str += to_string(i) + ") ";
+                output_str += DailyCustomerList[i];
+                output_str += "\n";
+            }
+        }
+        // Total Revenue
+        output_str += "\nTotal Revenue Earned Today : $";
+        output_str += to_string(totalRevenue);
+        output_str += "\n";
+        // Preferred and Basic Totals
+        output_str += "\nNumber of Preferred Shoppers Today : ";
+        output_str += to_string(prefCount);
+        output_str += "\nNumber of Basic Shoppers Today : ";
+        output_str += to_string(basicCount);
+        output_str += "\n";
+    }
+    return output_str;
+}
