@@ -41,7 +41,7 @@ public:
     string get_Members_String();
     string get_All_Purchases_String();
     string get_Quantities_Sold_String();
-    // Need to Add
+
     string dailySalesReport(string dayDate, bool &valid);
 private:
     Sequence memberList;

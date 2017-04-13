@@ -76,11 +76,6 @@ group::group()
     ItemNames = new string[inventory_cap];
     initialize_inventory();
     sort_inventory();
-
-    // TESTING FOR DAILY SALES REPORT! Remove 3 lines below later!!!!!!!!!!!!!!!!
-    // bool valid;
-    // string test1 = dailySalesReport("day1",valid);
-    // cout << test1;
 }
 
 void group::initialize_day(string fileName, bool &valid)
@@ -109,12 +104,18 @@ void group::initialize_day(string fileName, bool &valid)
             getline(dataIn, line);
             itemName = line;
             dataIn >> itemCost >> itemQuantity;
-            cout << id << " " << itemName <<" "<<itemCost<<" "<<itemQuantity << endl;
             dataIn.ignore(256, '\n');
             index = memberList.find_user(id);
-            if(index != -1)
-                memberList[index]->AddPurchase(itemName, itemCost, purchaseDate, itemQuantity);
-            dataIn.clear();
+            if(index != -1){
+                wholesalegroup::Purchase newItem;
+                newItem.item = itemName;
+                newItem.price = itemCost;
+                newItem.quantity = itemQuantity;
+                newItem.total = itemCost * itemQuantity;
+                newItem.date = purchaseDate;
+                memberList[index]->AddPurchase(newItem);
+                add_item(itemName);
+            }
         }
     }
 }
@@ -125,12 +126,11 @@ void group::initialize_members()
     ifstream dataIn;
 
     string line;
-    int i = 0;
 
-    string name;                                                 // i = 0
-    int id;                                                           // i = 1
-    wholesalegroup::Membership mem_type;      // i = 2
-    string date;                                                    // i = 3
+    string name;
+    int id;
+    wholesalegroup::Membership mem_type;
+    string date;
 
     dataIn.open(inFileName);
         while (getline(dataIn, line)){
@@ -627,7 +627,7 @@ string group::get_All_Purchases_String()
             output_Str += "\n";
         }
 
-    output_Str += "Total Revenue: "; output_Str += to_string(total); output_Str += "\n";
+    output_Str += "Total Revenue: "; output_Str += to_string(total + total * 0.0875); output_Str += "\n";
 
     return output_Str;
 }
@@ -647,31 +647,11 @@ string group::get_Quantities_Sold_String()
         output_Str += ItemNames[i]; output_Str += "    qty: ";
         output_Str += to_string(quantity); output_Str += "\n";
     }
+
+
     return output_Str;
 }
 
-/*
-void group::dailySalesReport(string dayDate, bool &valid)
-{
-   string output_str;
-
-   Purchase itemArr[100];
-   int itemArrCount = 0;
-   for(int i=0; i<memberList.size(); i++){
-       for(int j=0; j<memberList[i]->PurchaseLen(); j++){
-           if(dayDate == (*memberList[i])[j].date){
-//                output_str += (*memberList[i])[j].item + " " + (*memberList[i])[j].quantity;
-               for(int k=0; k<100; k++){
-                   if(itemArr[k].item == (*memberList[i])[j].item){
-                       itemArr[k].quantity += (*memberList[i])[j].quantity;
-                   }
-               }
-               itemArr[itemArrCount] = (*memberList[i])[j];
-           }
-       }
-   }
-}
-*/
 
 string group::dailySalesReport(string dayDate, bool &valid)
 {
@@ -816,3 +796,6 @@ string group::dailySalesReport(string dayDate, bool &valid)
     }
     return output_str;
 }
+
+
+
