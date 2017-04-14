@@ -1,8 +1,25 @@
-//V 1.3.3.7
+//V FINAL
 
 #include "sequence.h"
 #include <iostream>
 #include <algorithm>
+
+/**********************************************************
+ *
+ * Sequence - O(n)
+ *_________________________________________________________
+ * default ctr
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * data: data array
+ * capacity: capacity of arr
+ * used: used of arr
+ * current_index: current index of array
+ *
+ * POST-CONDITIONS
+ * initializes the sequence
+ **********************************************************/
 
 Sequence::Sequence(): used(0), current_index(0), capacity(20)
 {
@@ -13,10 +30,40 @@ Sequence::Sequence(): used(0), current_index(0), capacity(20)
     }
 }
 
+/**********************************************************
+ *
+ * ~Sequence - O(n)
+ *_________________________________________________________
+ * destructor
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * data: data array
+ *
+ * POST-CONDITIONS
+ * sequence is destroyed
+ **********************************************************/
+
 Sequence::~Sequence()
 {
     delete []data;
 }
+
+/**********************************************************
+ *
+ * start - O(n)
+ *_________________________________________________________
+ * sets current index to 0
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * data: data array
+ * current_index: current index of arr
+ * used: used of arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void Sequence::start()
 {
@@ -26,6 +73,21 @@ void Sequence::start()
         this->data[current_index] = NULL;
 }
 
+/**********************************************************
+ *
+ * advance - O(n)
+ *_________________________________________________________
+ * increments current index
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * current_index: current index of arr
+ * used: used of arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void Sequence::advance()
 {
     if (is_item())
@@ -33,6 +95,23 @@ void Sequence::advance()
     else
         this->current_index = used;           // Set to the end...
 }
+
+/**********************************************************
+ *
+ * insert - O(n^2)
+ *_________________________________________________________
+ * inserts value in array at current index
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * current_index: current index of arr
+ * used: used of arr
+ * capacity: capacity of arr
+ * entry: pointer to a member
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 // make sure insert is unique
 void Sequence::insert(valPtr & entry)
@@ -69,6 +148,22 @@ void Sequence::insert(valPtr & entry)
     this->sort();
 }
 
+/**********************************************************
+ *
+ * remove_current - O(n)
+ *_________________________________________________________
+ * removes value at current index
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * current_index: current index of arr
+ * used: used of arr
+ * data: arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void Sequence::remove_current()
 {
     if (is_item())
@@ -86,6 +181,22 @@ void Sequence::remove_current()
     }
 }
 
+/**********************************************************
+ *
+ * resize - O(n)
+ *_________________________________________________________
+ * doubles capacity of arr
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * capacity: cap of arr
+ * data: arr
+ *
+ * POST-CONDITIONS
+ * capacity is doubled
+ **********************************************************/
+
 void Sequence::resize()
 {
     size_type newCap = 2 * this->capacity;
@@ -101,6 +212,21 @@ void Sequence::resize()
 
     tempData = NULL;
 }
+
+/**********************************************************
+ *
+ * sort - O(n^2)
+ *_________________________________________________________
+ * sorts the array by id
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ *
+ * POST-CONDITIONS
+ * array is sorted
+ **********************************************************/
 
 void Sequence::sort()
 {
@@ -128,6 +254,22 @@ void Sequence::sort()
     }
 }
 
+/**********************************************************
+ *
+ * is_item - O(1)
+ *_________________________________________________________
+ * determines if an item is at current index
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * current_index: current index of arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 bool Sequence::is_item() const
 {
     if (this->current_index >= this->capacity || this->current_index < 0)
@@ -140,6 +282,21 @@ bool Sequence::is_item() const
         return true;
 }
 
+/**********************************************************
+ *
+ * current - O(1)
+ *_________________________________________________________
+ * returns pointer to current index
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * data: arr
+ * current_index: current index of arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 Sequence::valPtr Sequence::current()
 {
     if (is_item())
@@ -147,6 +304,21 @@ Sequence::valPtr Sequence::current()
     else
         return NULL;
 }
+
+/**********************************************************
+ *
+ * display - O(n)
+ *_________________________________________________________
+ * displays entire seq
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * data: arr
+ * current_index: current index of arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void Sequence::display()
 {
@@ -156,13 +328,46 @@ void Sequence::display()
            std::cout << data[current_index]->GetId();
            this->advance();
        }
- }
+}
+
+/**********************************************************
+ *
+ * operator [] - O(1)
+ *_________________________________________________________
+ * overloaded operator for []
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * index: index searching for
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 Sequence::valPtr Sequence::operator [] (size_type index)
 {
     assert(index < this->used);
     return this->data[index];
 }
+
+/**********************************************************
+ *
+ * add_member - O(n)
+ *_________________________________________________________
+ * adds member to the seq
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * capacity: cap of arr
+ * data: arr
+ * entry: pointer to a member
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 void Sequence::add_member(valPtr &entry)
 {
@@ -181,6 +386,22 @@ void Sequence::add_member(valPtr &entry)
     used++;
 }
 
+/**********************************************************
+ *
+ * remove_member - O(n^2)
+ *_________________________________________________________
+ * removes member from the seq
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * id: member's id
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
+
 void Sequence::remove_member(int id)
 {
     for (int i = 0; i < this->used; i++){
@@ -192,6 +413,22 @@ void Sequence::remove_member(int id)
         }
     }
 }
+
+/**********************************************************
+ *
+ * checkUpgrade - O(n)
+ *_________________________________________________________
+ * checks if member should upgrade
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * id: member's id
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 bool Sequence::checkUpgrade(int id)
 {
@@ -212,7 +449,7 @@ bool Sequence::checkUpgrade(int id)
             }
             else
             {
-                std::cout << "ERROR. Check upgrade on preferred." << std::endl;
+//                std::cout << "ERROR. Check upgrade on preferred." << std::endl;
                 return false;
             }
 
@@ -222,6 +459,22 @@ bool Sequence::checkUpgrade(int id)
     //default is false
     return false;
 }
+
+/**********************************************************
+ *
+ * checkDowngrade - O(n)
+ *_________________________________________________________
+ * checks if member should downgrade
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * id: member's id
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 bool Sequence::checkDowngrade(int id)
 {
@@ -241,7 +494,7 @@ bool Sequence::checkDowngrade(int id)
             }
             else
             {
-                std::cout << "ERROR. Check downgrade on basic." << std::endl;
+//                std::cout << "ERROR. Check downgrade on basic." << std::endl;
                 return false;
             }
 
@@ -251,6 +504,22 @@ bool Sequence::checkDowngrade(int id)
     //default is false
     return false;
 }
+
+/**********************************************************
+ *
+ * find_user - O(n)
+ *_________________________________________________________
+ * finds user with id
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * id: member's id
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 int Sequence::find_user(int id)
 {
@@ -262,6 +531,22 @@ int Sequence::find_user(int id)
     //error code -1 if not found
     return -1;
 }
+
+/**********************************************************
+ *
+ * find_user - O(n)
+ *_________________________________________________________
+ * finds user with name
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * used: used of arr
+ * data: arr
+ * name: member's name
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 int Sequence::find_user(string name)
 {
@@ -287,6 +572,21 @@ int Sequence::find_user(string name)
     //error code -1 if not found
     return -1;
 }
+
+/**********************************************************
+ *
+ * sortByPref - O(n^2)
+ *_________________________________________________________
+ * sorts members by pref
+ *_________________________________________________________
+ * PRE-CONDITIONS
+ * The following will need defined values
+ * capacity: cap of arr
+ * current_index: current index of arr
+ *
+ * POST-CONDITIONS
+ * n/a
+ **********************************************************/
 
 Sequence& Sequence::sortByPref()
 {

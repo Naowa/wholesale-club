@@ -1,10 +1,10 @@
-//V 1.3.3.7
+//V FINAL
 
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
 
-#include <cstdlib>                                     // provides size_t
-#include <cassert>                                    // for assert
+#include <cstdlib>
+#include <cassert>
 #include "member.h"
 
 using std::string;
@@ -12,52 +12,35 @@ using std::string;
 class Sequence
 {
 public:
-    typedef wholesalegroup::Member value_type;                    // define member as value type
-    typedef wholesalegroup::Member* valPtr;                          // used for pointers, the other is for the value
-    typedef std::size_t size_type;                                            // defines the size type used in capacity. Non zero
-
-    // CONSTRUCTOR
-    Sequence();      // Constructor
-    ~Sequence();
-
-    // MODIFICATION FUNCITONS
-    void start();                                               // Sets the current_index to 0
-    void advance();                                         // Advances the current_index + 1
-    void insert(valPtr &entry);                          // Inserts the
-
-    void remove_current();
-
-    void resize();
-    void sort();
-
-    // CONSTANT MEMBER FUNCTIONS
-
-    bool is_item() const;                                   // whether the item at current_index exists
-    valPtr current();                                          // returns the pointer to item at the current_index
-
-    void display();                                            // Display for test only
-
-    // OPERATOR OVERLOAD
-    valPtr operator [] (size_type index);
-
-    // ACCESSORS
-    inline size_type size() const { return this->used; }
-    inline size_type Get_Capacity(){return this->capacity;}
-
-    void add_member(valPtr &entry);
-    void remove_member(int id);
-    int find_user(int id);
-    int find_user(string name);
-
-    bool checkUpgrade(int id);
-    bool checkDowngrade(int id);
-
-    Sequence& sortByPref();
+    typedef wholesalegroup::Member value_type;              //value_type - typedef a Member type
+    typedef wholesalegroup::Member* valPtr;                 //valPtr - typedef for a Member pointer
+    typedef std::size_t size_type;                          //size_type - typedef for a size_t
+    Sequence();                                             //Sequence - default seq ctr
+    ~Sequence();                                            //~Sequence - seq destructor
+    void start();                                           //start - sets current index to 0
+    void advance();                                         //advance - increments current index
+    void insert(valPtr &entry);                             //insert - inserts an entry into seq
+    void remove_current();                                  //remove_current - removes item at current index
+    void resize();                                          //resize - doubles the capacity of the seq
+    void sort();                                            //sort - sorts the seq
+    bool is_item() const;                                   //is_item - determines if item at index exists
+    valPtr current();                                       //current - returns pointer at current index
+    void display();                                         //display - test function for displaying seq
+    valPtr operator [] (size_type index);                   //operator - overloaded [] operator for accessing
+    inline size_type size() const { return this->used; }    //size - returns used
+    inline size_type Get_Capacity(){return this->capacity;} //Get_Capacity - returns capacity
+    void add_member(valPtr &entry);                         //add_member - adds member to seq
+    void remove_member(int id);                             //remove_member - removes member from seq
+    int find_user(int id);                                  //find_user - finds user with id
+    int find_user(string name);                             //find_user - finds user with name
+    bool checkUpgrade(int id);                              //checkUpgrade - determines if member should upgrade
+    bool checkDowngrade(int id);                            //checkDowngrade - determines if member should downgrade
+    Sequence& sortByPref();                                 //sortByPref - sorts members by preferred
 private:
-    size_type capacity;
-    valPtr* data;
-    size_type used;                                         // variable unique to sequence
-    size_type current_index;                            // variable unique to sequence
+    size_type capacity;                                     //capacity - capacity of seq
+    valPtr* data;                                           //data - pointer to a member array
+    size_type used;                                         //used - used of seq
+    size_type current_index;                                //current_index - manages current index
 };
 
 #endif // SEQUENCE_H

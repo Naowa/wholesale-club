@@ -1,4 +1,4 @@
-//V 1.3.3.7
+//V FINAL
 
 #include "group.h"
 #include <iostream>
@@ -20,7 +20,7 @@ using namespace std;
  * ItemNames: array of item names
  *
  * POST-CONDITIONS
- * n/a
+ * initializes the group
  **********************************************************/
 
 group::group()
@@ -48,7 +48,7 @@ group::group()
  * memberList: needs to have a member list
  *
  * POST-CONDITIONS
- * n/a
+ * initializes a day
  **********************************************************/
 
 void group::initialize_day(string fileName, bool &valid)
@@ -104,7 +104,7 @@ void group::initialize_day(string fileName, bool &valid)
  * memberList: a sequence of members
  *
  * POST-CONDITIONS
- * n/a
+ * members are imported from a txt file
  **********************************************************/
 
 void group::initialize_members()
@@ -398,7 +398,7 @@ bool group::checkDowngrade_state(string input_str, bool &valid)
  * valid: needs a validation bool
  *
  * POST-CONDITIONS
- * n/a
+ * member is added to the group
  **********************************************************/
 
 void group::add_member_state(string input_str, bool &valid)
@@ -464,7 +464,7 @@ void group::add_member_state(string input_str, bool &valid)
  * valid: needs a validation bool
  *
  * POST-CONDITIONS
- * n/a
+ * member removed from group
  **********************************************************/
 
 void group::remove_member_state(string input_str, bool &valid)
